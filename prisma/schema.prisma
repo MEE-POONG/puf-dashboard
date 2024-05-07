@@ -120,15 +120,14 @@ model AdminData {
 model CalculateData {
   id                String           @id @default(auto()) @map("_id") @db.ObjectId
   listType          String
-  affiliateIncomeId String?
-  reportWLId        String?
+  affiliateIncomeId String?          @db.ObjectId
+  reportWLDataId    String?          @db.ObjectId
   createdAt         DateTime         @default(now())
   createdBy         String
   updateAt          DateTime         @updatedAt
   updateBy          String
   affiliateIncome   AffiliateIncome? @relation(fields: [affiliateIncomeId], references: [id])
   ReportWLData      ReportWLData?    @relation(fields: [reportWLDataId], references: [id])
-  reportWLDataId    String?          @db.ObjectId
 }
 
 // Model สำหรับ AffiliateIncome
