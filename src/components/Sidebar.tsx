@@ -32,7 +32,7 @@ const Sidebar: React.FC<SidenavProps> = ({ openSidebar }) => {
         { href: '/partners', text: 'พันธมิตร', icon: <IoIosListBox /> },
         { href: '/reportWL', text: 'Report', icon: <TbClipboardList /> },
         { href: '/', text: 'BOT', icon: <RiRobot3Fill />},
-        { href: '/', text: 'Admin', icon: <MdAdminPanelSettings /> },
+        { href: '/admin', text: 'Admin', icon: <MdAdminPanelSettings /> },
     ];
 
     // open Sidebar
