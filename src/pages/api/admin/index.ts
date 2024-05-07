@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const prisma = new PrismaClient();
@@ -9,6 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
         case 'GET':
             try {
+                // Retrieve all AdminData records
                 const admins = await prisma.adminData.findMany();
                 res.status(200).json(admins);
             } catch (error) {
@@ -17,10 +18,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             break;
         case 'POST':
             try {
-                const admin = await prisma.adminData.create({
+                // Create a new AdminData record
+                const newAdmin = await prisma.adminData.create({
                     data: req.body,
                 });
-                res.status(201).json(admin);
+                res.status(201).json(newAdmin);
             } catch (error) {
                 res.status(500).json({ error: "An error occurred while creating the admin data" });
             }
