@@ -7,6 +7,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Model สำหรับ AdminDATA
+model AdminData {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  username  String   @unique
+  password  String
+  name      String
+  tel       String
+  email     String
+  createdAt DateTime @default(now())
+  createdBy String
+  updateAt  DateTime @updatedAt
+  updateBy  String
+}
+
+model AffiliateIncomeData {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  calculateId   String
+  allianceId    String
+  createdAt     DateTime        @default(now())
+  createdBy     String
+  updateAt      DateTime        @updatedAt
+  updateBy      String
+  CalculateData CalculateData[]
+}
+
 // Model สำหรับ AllianceDATA
 model AllianceData {
   id           String             @id @default(auto()) @map("_id") @db.ObjectId
@@ -21,6 +46,69 @@ model AllianceData {
   partnersData PartnerData[]
   reportsData  SelectReportData[]
   totalWLData  TotalWLData[]
+}
+
+// Model สำหรับ CalculateDATA
+model CalculateData {
+  id                    String               @id @default(auto()) @map("_id") @db.ObjectId
+  listType              String
+  affiliateIncomeDataId String?              @db.ObjectId
+  reportWLDataId        String?              @db.ObjectId
+  createdAt             DateTime             @default(now())
+  createdBy             String
+  updateAt              DateTime             @updatedAt
+  updateBy              String
+  affiliateIncomeData   AffiliateIncomeData? @relation(fields: [affiliateIncomeDataId], references: [id])
+  ReportWLData          ReportWLData?        @relation(fields: [reportWLDataId], references: [id])
+}
+
+// Model สำหรับ PartnerDATA
+model PartnerData {
+  id               String        @id @default(auto()) @map("_id") @db.ObjectId
+  allianceId       String
+  percent          Float
+  firstName        String
+  lastName         String
+  bankAccount      String
+  bank             String
+  tel              String
+  line             String
+  accruedPlus      Float
+  getCom           Float
+  pay              Float
+  adjustPercentage Float
+  createdAt        DateTime      @default(now())
+  createdBy        String
+  updateAt         DateTime      @updatedAt
+  updateBy         String
+  AllianceData     AllianceData? @relation(fields: [allianceDataId], references: [id])
+  allianceDataId   String?       @db.ObjectId
+}
+
+// Model สำหรับ ReferFriend
+model ReferFriendData {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  calculateId     String
+  totalWLId       String
+  cusWLandCom     Float
+  transferSummary String
+  createdAt       DateTime @default(now())
+  createdBy       String
+  updateAt        DateTime @updatedAt
+  updateBy        String
+}
+
+model RefundCreditData {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  calculateId     String
+  allianceId      String
+  validNumber     Float
+  percent         Float
+  transferSummary String
+  createdAt       DateTime @default(now())
+  createdBy       String
+  updateAt        DateTime @updatedAt
+  updateBy        String
 }
 
 // Model สำหรับ ReportWLDATA
@@ -49,7 +137,6 @@ model SelectReportData {
   allianceDataId String?       @db.ObjectId
 }
 
-// Model สำหรับ TotalWLDATA
 model TotalWLData {
   id                  String        @id @default(auto()) @map("_id") @db.ObjectId
   reportWLId          String
@@ -77,94 +164,4 @@ model TotalWLData {
   updateBy            String
   AllianceData        AllianceData? @relation(fields: [allianceDataId], references: [id])
   allianceDataId      String?       @db.ObjectId
-}
-
-// Model สำหรับ PartnerDATA
-model PartnerData {
-  id               String        @id @default(auto()) @map("_id") @db.ObjectId
-  allianceId       String
-  percent          Float
-  firstName        String
-  lastName         String
-  bankAccount      String
-  bank             String
-  tel              String
-  line             String
-  accruedPlus      Float
-  getCom           Float
-  pay              Float
-  adjustPercentage Float
-  createdAt        DateTime      @default(now())
-  createdBy        String
-  updateAt         DateTime      @updatedAt
-  updateBy         String
-  AllianceData     AllianceData? @relation(fields: [allianceDataId], references: [id])
-  allianceDataId   String?       @db.ObjectId
-}
-
-// Model สำหรับ AdminDATA
-model AdminData {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  username  String   @unique
-  password  String
-  name      String
-  tel       String
-  email     String
-  createdAt DateTime @default(now())
-  createdBy String
-  updateAt  DateTime @updatedAt
-  updateBy  String
-}
-
-// Model สำหรับ CalculateDATA
-model CalculateData {
-  id                    String               @id @default(auto()) @map("_id") @db.ObjectId
-  listType              String
-  affiliateIncomeDataId String?              @db.ObjectId
-  reportWLDataId        String?              @db.ObjectId
-  createdAt             DateTime             @default(now())
-  createdBy             String
-  updateAt              DateTime             @updatedAt
-  updateBy              String
-  affiliateIncomeData   AffiliateIncomeData? @relation(fields: [affiliateIncomeDataId], references: [id])
-  ReportWLData          ReportWLData?        @relation(fields: [reportWLDataId], references: [id])
-}
-
-// Model สำหรับ AffiliateIncome
-model AffiliateIncomeData {
-  id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  calculateId   String
-  allianceId    String
-  createdAt     DateTime        @default(now())
-  createdBy     String
-  updateAt      DateTime        @updatedAt
-  updateBy      String
-  CalculateData CalculateData[]
-}
-
-// Model สำหรับ RefundCredit
-model RefundCreditData {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  calculateId     String
-  allianceId      String
-  validNumber     Float
-  percent         Float
-  transferSummary String
-  createdAt       DateTime @default(now())
-  createdBy       String
-  updateAt        DateTime @updatedAt
-  updateBy        String
-}
-
-// Model สำหรับ ReferFriend
-model ReferFriendData {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  calculateId     String
-  totalWLId       String
-  cusWLandCom     Float
-  transferSummary String
-  createdAt       DateTime @default(now())
-  createdBy       String
-  updateAt        DateTime @updatedAt
-  updateBy        String
 }
