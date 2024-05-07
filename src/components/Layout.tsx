@@ -6,14 +6,18 @@ export default function DashboardLayout({
 }: {
     children: React.ReactNode
 }) {
-    
+
+    const openSidebar = () => {
+        // Implement openNav functionality
+      };
+
     return (
-        <div>
-            <Navbar/>
-            <Sidebar/>
-            <div className="ml-16 bg-gray-100 h-screen fixed w-full lg:w-3/4 transition-all duration-200 ease-in-out">
+        <section>
+            {/* <Navbar /> */}
+            <Sidebar openSidebar={openSidebar} />
+            <main className="content ml-12 transform ease-in-out duration-500 pt-20 px-2 md:px-9 pb-4">
                 {children}
-            </div>
-        </div>
+            </main>
+        </section>
     )
 }
