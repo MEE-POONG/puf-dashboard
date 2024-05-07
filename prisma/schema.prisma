@@ -3,6 +3,168 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
+}
+
+// Model สำหรับ AllianceDATA
+model AllianceData {
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  userAccount String
+  position    String
+  partner     String
+  password    String
+  createdAt   DateTime       @default(now())
+  createdBy   String
+  updateAt    DateTime       @updatedAt
+  updateBy    String
+  partners    PartnerData[]
+  reports     SelectReport[]
+  totalWLData TotalWLData[]
+}
+
+// Model สำหรับ ReportWLDATA
+model ReportWLData {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  dateStart     DateTime
+  dateEnd       DateTime
+  createdAt     DateTime        @default(now())
+  createdBy     String
+  updateAt      DateTime        @updatedAt
+  updateBy      String
+  calculateData CalculateData[]
+}
+
+// Model สำหรับ SelectReport
+model SelectReport {
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  reportId       String
+  all            Boolean
+  allianceId     String
+  createdAt      DateTime      @default(now())
+  createdBy      String
+  updateAt       DateTime      @updatedAt
+  updateBy       String
+  AllianceData   AllianceData? @relation(fields: [allianceDataId], references: [id])
+  allianceDataId String?       @db.ObjectId
+}
+
+// Model สำหรับ TotalWLDATA
+model TotalWLData {
+  id                  String        @id @default(auto()) @map("_id") @db.ObjectId
+  reportWLId          String
+  userAccount         String
+  currency            String
+  number              Float
+  validNumber         Float
+  online              Int
+  countingBets        Int
+  totalCommission     Float
+  cusWL               Float
+  cusCom              Float
+  cusWLandCom         Float
+  allianceValidNumber Float
+  allianceWL          Float
+  allianceCom         Float
+  allianceWLandCom    Float
+  ufaValidNumber      Float
+  ufaWL               Float
+  ufaCom              Float
+  ufaWLandCom         Float
+  createdAt           DateTime      @default(now())
+  createdBy           String
+  updateAt            DateTime      @updatedAt
+  updateBy            String
+  AllianceData        AllianceData? @relation(fields: [allianceDataId], references: [id])
+  allianceDataId      String?       @db.ObjectId
+}
+
+// Model สำหรับ PartnerDATA
+model PartnerData {
+  id               String        @id @default(auto()) @map("_id") @db.ObjectId
+  allianceId       String
+  percent          Float
+  firstName        String
+  lastName         String
+  bankAccount      String
+  bank             String
+  tel              String
+  line             String
+  accruedPlus      Float
+  getCom           Float
+  pay              Float
+  adjustPercentage Float
+  createdAt        DateTime      @default(now())
+  createdBy        String
+  updateAt         DateTime      @updatedAt
+  updateBy         String
+  AllianceData     AllianceData? @relation(fields: [allianceDataId], references: [id])
+  allianceDataId   String?       @db.ObjectId
+}
+
+// Model สำหรับ AdminDATA
+model AdminData {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  username  String   @unique
+  password  String
+  name      String
+  tel       String
+  email     String
+  createdAt DateTime @default(now())
+  createdBy String
+  updateAt  DateTime @updatedAt
+  updateBy  String
+}
+
+// Model สำหรับ CalculateDATA
+model CalculateData {
+  id                String           @id @default(auto()) @map("_id") @db.ObjectId
+  listType          String
+  affiliateIncomeId String?          @db.ObjectId
+  reportWLDataId    String?          @db.ObjectId
+  createdAt         DateTime         @default(now())
+  createdBy         String
+  updateAt          DateTime         @updatedAt
+  updateBy          String
+  affiliateIncome   AffiliateIncome? @relation(fields: [affiliateIncomeId], references: [id])
+  ReportWLData      ReportWLData?    @relation(fields: [reportWLDataId], references: [id])
+}
+
+// Model สำหรับ AffiliateIncome
+model AffiliateIncome {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  calculateId   String
+  allianceId    String
+  createdAt     DateTime        @default(now())
+  createdBy     String
+  updateAt      DateTime        @updatedAt
+  updateBy      String
+  CalculateData CalculateData[]
+}
+
+// Model สำหรับ RefundCredit
+model RefundCredit {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  calculateId     String
+  allianceId      String
+  validNumber     Float
+  percent         Float
+  transferSummary String
+  createdAt       DateTime @default(now())
+  createdBy       String
+  updateAt        DateTime @updatedAt
+  updateBy        String
+}
+
+// Model สำหรับ ReferFriend
+model ReferFriend {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  calculateId     String
+  totalWLId       String
+  cusWLandCom     Float
+  transferSummary String
+  createdAt       DateTime @default(now())
+  createdBy       String
+  updateAt        DateTime @updatedAt
+  updateBy        String
 }
