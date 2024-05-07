@@ -4,6 +4,8 @@ import { IoMdHome, IoIosListBox } from "react-icons/io";
 import { FaUserCog } from "react-icons/fa";
 import { TbClipboardList } from "react-icons/tb";
 import { useRouter } from 'next/router';
+import { RiRobot3Fill } from "react-icons/ri";
+import { MdAdminPanelSettings } from "react-icons/md";
 
 interface SubmenuItem {
     href: string;
@@ -29,6 +31,8 @@ const Sidebar: React.FC<SidenavProps> = ({ openSidebar }) => {
         { href: '/agent', text: 'รายชื่อตัวเเทน', icon: <FaUserCog /> },
         { href: '/partners', text: 'พันธมิตร', icon: <IoIosListBox /> },
         { href: '/reportWL', text: 'Report', icon: <TbClipboardList /> },
+        { href: '/', text: 'BOT', icon: <RiRobot3Fill />},
+        { href: '/', text: 'Admin', icon: <MdAdminPanelSettings /> },
     ];
 
     // open Sidebar
