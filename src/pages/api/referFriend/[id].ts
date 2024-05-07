@@ -9,22 +9,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
         case 'GET':
             try {
-                // Retrieve all AllianceData records
-                const alliances = await prisma.allianceData.findMany();
-                res.status(200).json(alliances);
+                // Retrieve all ReferFriendData records
+                const referFriendData = await prisma.referFriendData.findMany();
+                res.status(200).json(referFriendData);
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while fetching alliance data" });
+                res.status(500).json({ error: "An error occurred while fetching refer friend data" });
             }
             break;
         case 'POST':
             try {
-                // Create a new AllianceData record
-                const alliance = await prisma.allianceData.create({
+                // Create a new ReferFriendData record
+                const newReferFriendData = await prisma.referFriendData.create({
                     data: req.body,
                 });
-                res.status(201).json(alliance);
+                res.status(201).json(newReferFriendData);
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while creating the alliance data" });
+                res.status(500).json({ error: "An error occurred while creating the refer friend data" });
             }
             break;
         default:

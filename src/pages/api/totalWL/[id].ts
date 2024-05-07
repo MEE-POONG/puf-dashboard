@@ -10,46 +10,46 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
         case 'GET':
             try {
-                // Retrieve a single AllianceData record by ID
-                const alliance = await prisma.allianceData.findUnique({
+                // Retrieve a single TotalWLData record by ID
+                const totalData = await prisma.totalWLData.findUnique({
                     where: {
                         id: id as string,
                     },
                 });
-                if (alliance) {
-                    res.status(200).json(alliance);
+                if (totalData) {
+                    res.status(200).json(totalData);
                 } else {
-                    res.status(404).json({ error: "AllianceData record not found" });
+                    res.status(404).json({ error: "TotalWLData record not found" });
                 }
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while fetching the alliance data" });
+                res.status(500).json({ error: "An error occurred while fetching the total WL data" });
             }
             break;
         case 'PUT':
             try {
-                // Update a single AllianceData record by ID
-                const updatedAlliance = await prisma.allianceData.update({
+                // Update a single TotalWLData record by ID
+                const updatedTotalData = await prisma.totalWLData.update({
                     where: {
                         id: id as string,
                     },
                     data: req.body,
                 });
-                res.status(200).json(updatedAlliance);
+                res.status(200).json(updatedTotalData);
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while updating the alliance data" });
+                res.status(500).json({ error: "An error occurred while updating the total WL data" });
             }
             break;
         case 'DELETE':
             try {
-                // Delete a single AllianceData record by ID
-                await prisma.allianceData.delete({
+                // Delete a single TotalWLData record by ID
+                await prisma.totalWLData.delete({
                     where: {
                         id: id as string,
                     },
                 });
                 res.status(204).end();
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while deleting the alliance data" });
+                res.status(500).json({ error: "An error occurred while deleting the total WL data" });
             }
             break;
         default:

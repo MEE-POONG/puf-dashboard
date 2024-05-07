@@ -10,46 +10,46 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
         case 'GET':
             try {
-                // Retrieve a single AllianceData record by ID
-                const alliance = await prisma.allianceData.findUnique({
+                // Retrieve a single SelectReportData record by ID
+                const report = await prisma.selectReportData.findUnique({
                     where: {
                         id: id as string,
                     },
                 });
-                if (alliance) {
-                    res.status(200).json(alliance);
+                if (report) {
+                    res.status(200).json(report);
                 } else {
-                    res.status(404).json({ error: "AllianceData record not found" });
+                    res.status(404).json({ error: "SelectReportData record not found" });
                 }
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while fetching the alliance data" });
+                res.status(500).json({ error: "An error occurred while fetching the select report data" });
             }
             break;
         case 'PUT':
             try {
-                // Update a single AllianceData record by ID
-                const updatedAlliance = await prisma.allianceData.update({
+                // Update a single SelectReportData record by ID
+                const updatedReport = await prisma.selectReportData.update({
                     where: {
                         id: id as string,
                     },
                     data: req.body,
                 });
-                res.status(200).json(updatedAlliance);
+                res.status(200).json(updatedReport);
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while updating the alliance data" });
+                res.status(500).json({ error: "An error occurred while updating the select report data" });
             }
             break;
         case 'DELETE':
             try {
-                // Delete a single AllianceData record by ID
-                await prisma.allianceData.delete({
+                // Delete a single SelectReportData record by ID
+                await prisma.selectReportData.delete({
                     where: {
                         id: id as string,
                     },
                 });
                 res.status(204).end();
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while deleting the alliance data" });
+                res.status(500).json({ error: "An error occurred while deleting the select report data" });
             }
             break;
         default:

@@ -1,4 +1,3 @@
-// reportwl/[id].ts
 import { PrismaClient } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -11,37 +10,38 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
         case 'GET':
             try {
-                // ดึงข้อมูลตาม ID
+                // Retrieve a single ReportWLData record by ID
                 const report = await prisma.reportWLData.findUnique({
                     where: {
                         id: id as string,
                     },
                 });
-                if (!report) {
-                    return res.status(404).json({ error: "Report not found" });
+                if (report) {
+                    res.status(200).json(report);
+                } else {
+                    res.status(404).json({ error: "ReportWLData record not found" });
                 }
-                res.status(200).json(report);
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while fetching the report WL data" });
+                res.status(500).json({ error: "An error occurred while fetching the report data" });
             }
             break;
         case 'PUT':
             try {
-                // อัปเดตรายการตาม ID
-                const report = await prisma.reportWLData.update({
+                // Update a single ReportWLData record by ID
+                const updatedReport = await prisma.reportWLData.update({
                     where: {
                         id: id as string,
                     },
                     data: req.body,
                 });
-                res.status(200).json(report);
+                res.status(200).json(updatedReport);
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while updating the report WL data" });
+                res.status(500).json({ error: "An error occurred while updating the report data" });
             }
             break;
         case 'DELETE':
             try {
-                // ลบรายการตาม ID
+                // Delete a single ReportWLData record by ID
                 await prisma.reportWLData.delete({
                     where: {
                         id: id as string,
@@ -49,7 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 });
                 res.status(204).end();
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while deleting the report WL data" });
+                res.status(500).json({ error: "An error occurred while deleting the report data" });
             }
             break;
         default:

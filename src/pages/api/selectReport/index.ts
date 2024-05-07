@@ -9,23 +9,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
         case 'GET':
             try {
-                // Retrieve all AllianceData records
-                const alliances = await prisma.allianceData.findMany();
-                res.status(200).json(alliances);
+                // Fetch all SelectReportData records
+                const reports = await prisma.selectReportData.findMany();
+                res.status(200).json(reports);
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while fetching alliance data" });
+                res.status(500).json({ error: "An error occurred while fetching select report data" });
             }
             break;
         case 'POST':
             try {
-                // Create a new AllianceData record
-                const alliance = await prisma.allianceData.create({
+                // Create a new SelectReportData record
+                const report = await prisma.selectReportData.create({
                     data: req.body,
                 });
-                res.status(201).json(alliance);
+                res.status(201).json(report);
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while creating the alliance data" });
-            }
+                res.status(500).json({ error: "An error occurred while creating the select report data" });
+                }
             break;
         default:
             res.setHeader('Allow', ['GET', 'POST']);

@@ -10,46 +10,46 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
         case 'GET':
             try {
-                // Retrieve a single AllianceData record by ID
-                const alliance = await prisma.allianceData.findUnique({
+                // Retrieve a single AffiliateIncomeData record by ID
+                const incomeData = await prisma.affiliateIncomeData.findUnique({
                     where: {
                         id: id as string,
                     },
                 });
-                if (alliance) {
-                    res.status(200).json(alliance);
+                if (incomeData) {
+                    res.status(200).json(incomeData);
                 } else {
-                    res.status(404).json({ error: "AllianceData record not found" });
+                    res.status(404).json({ error: "AffiliateIncomeData record not found" });
                 }
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while fetching the alliance data" });
+                res.status(500).json({ error: "An error occurred while fetching the affiliate income data" });
             }
             break;
         case 'PUT':
             try {
-                // Update a single AllianceData record by ID
-                const updatedAlliance = await prisma.allianceData.update({
+                // Update a single AffiliateIncomeData record by ID
+                const updatedIncomeData = await prisma.affiliateIncomeData.update({
                     where: {
                         id: id as string,
                     },
                     data: req.body,
                 });
-                res.status(200).json(updatedAlliance);
+                res.status(200).json(updatedIncomeData);
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while updating the alliance data" });
+                res.status(500).json({ error: "An error occurred while updating the affiliate income data" });
             }
             break;
         case 'DELETE':
             try {
-                // Delete a single AllianceData record by ID
-                await prisma.allianceData.delete({
+                // Delete a single AffiliateIncomeData record by ID
+                await prisma.affiliateIncomeData.delete({
                     where: {
                         id: id as string,
                     },
                 });
                 res.status(204).end();
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while deleting the alliance data" });
+                res.status(500).json({ error: "An error occurred while deleting the affiliate income data" });
             }
             break;
         default:

@@ -9,18 +9,18 @@ datasource db {
 
 // Model สำหรับ AllianceDATA
 model AllianceData {
-  id          String         @id @default(auto()) @map("_id") @db.ObjectId
-  userAccount String
-  position    String
-  partner     String
-  password    String
-  createdAt   DateTime       @default(now())
-  createdBy   String
-  updateAt    DateTime       @updatedAt
-  updateBy    String
-  partners    PartnerData[]
-  reports     SelectReport[]
-  totalWLData TotalWLData[]
+  id           String             @id @default(auto()) @map("_id") @db.ObjectId
+  userAccount  String
+  position     String
+  partner      String
+  password     String
+  createdAt    DateTime           @default(now())
+  createdBy    String
+  updateAt     DateTime           @updatedAt
+  updateBy     String
+  partnersData PartnerData[]
+  reportsData  SelectReportData[]
+  totalWLData  TotalWLData[]
 }
 
 // Model สำหรับ ReportWLDATA
@@ -36,7 +36,7 @@ model ReportWLData {
 }
 
 // Model สำหรับ SelectReport
-model SelectReport {
+model SelectReportData {
   id             String        @id @default(auto()) @map("_id") @db.ObjectId
   reportId       String
   all            Boolean
@@ -118,20 +118,20 @@ model AdminData {
 
 // Model สำหรับ CalculateDATA
 model CalculateData {
-  id                String           @id @default(auto()) @map("_id") @db.ObjectId
-  listType          String
-  affiliateIncomeId String?          @db.ObjectId
-  reportWLDataId    String?          @db.ObjectId
-  createdAt         DateTime         @default(now())
-  createdBy         String
-  updateAt          DateTime         @updatedAt
-  updateBy          String
-  affiliateIncome   AffiliateIncome? @relation(fields: [affiliateIncomeId], references: [id])
-  ReportWLData      ReportWLData?    @relation(fields: [reportWLDataId], references: [id])
+  id                    String               @id @default(auto()) @map("_id") @db.ObjectId
+  listType              String
+  affiliateIncomeDataId String?              @db.ObjectId
+  reportWLDataId        String?              @db.ObjectId
+  createdAt             DateTime             @default(now())
+  createdBy             String
+  updateAt              DateTime             @updatedAt
+  updateBy              String
+  affiliateIncomeData   AffiliateIncomeData? @relation(fields: [affiliateIncomeDataId], references: [id])
+  ReportWLData          ReportWLData?        @relation(fields: [reportWLDataId], references: [id])
 }
 
 // Model สำหรับ AffiliateIncome
-model AffiliateIncome {
+model AffiliateIncomeData {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
   calculateId   String
   allianceId    String
@@ -143,7 +143,7 @@ model AffiliateIncome {
 }
 
 // Model สำหรับ RefundCredit
-model RefundCredit {
+model RefundCreditData {
   id              String   @id @default(auto()) @map("_id") @db.ObjectId
   calculateId     String
   allianceId      String
@@ -157,7 +157,7 @@ model RefundCredit {
 }
 
 // Model สำหรับ ReferFriend
-model ReferFriend {
+model ReferFriendData {
   id              String   @id @default(auto()) @map("_id") @db.ObjectId
   calculateId     String
   totalWLId       String
