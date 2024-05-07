@@ -108,7 +108,7 @@ const Sidebar: React.FC<SidenavProps> = ({ openSidebar }) => {
                 <div className="grow h-full flex items-center justify-center"></div>
             </div>
 
-            <aside className={`w-60  ${isMaxSidebar ? '' : '-translate-x-48'} fixed transition transform ease-in-out duration-1000 z-50 flex h-screen bg-[#1E293B]`}>
+            <aside className={`w-60 ${isMaxSidebar ? '' : '-translate-x-48'} fixed transition transform ease-in-out duration-1000 z-50 flex h-screen bg-[#1E293B]`}>
                 {/* <!-- open sidebar button --> */}
                 <div className="max-toolbar translate-x-24 scale-x-0 w-full -right-6 transition transform ease-in duration-300 flex items-center justify-between border-4 border-white dark:border-[#0F172A] bg-[#1E293B]  absolute top-2 rounded-full h-12">
                     <div className="flex pl-4 items-center space-x-2">
