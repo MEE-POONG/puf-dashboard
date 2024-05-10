@@ -28,8 +28,8 @@ const Sidebar: React.FC<SidenavProps> = ({ openSidebar }) => {
     // Menu Sidebar
     const navigationItems: MenuItem[] = [
         { href: '/', text: 'Home', icon: <IoMdHome /> },
-        { href: '/agent', text: 'รายชื่อตัวเเทน', icon: <FaUserCog /> },
-        { href: '/partners', text: 'พันธมิตร', icon: <IoIosListBox /> },
+        { href: '/partners', text: 'รายชื่อตัวเเทน', icon: <FaUserCog /> },
+        { href: '/agent', text: 'พันธมิตร', icon: <IoIosListBox /> },
         { href: '/reportWL', text: 'Report', icon: <TbClipboardList /> },
         { href: '/', text: 'BOT', icon: <RiRobot3Fill />},
         { href: '/admin', text: 'Admin', icon: <MdAdminPanelSettings /> },

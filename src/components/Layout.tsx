@@ -16,9 +16,7 @@ export default function DashboardLayout({
             {/* <Navbar /> */}
             <Sidebar openSidebar={openSidebar} />
             <main className="content ml-12 transform ease-in-out duration-500 pt-20 px-2 md:px-4">
-                <div className="w-full p-2 block">
-                    {children}
-                </div>
+                {children}
             </main>
         </section>
     )
