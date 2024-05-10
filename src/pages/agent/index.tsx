@@ -5,9 +5,9 @@ import { FaSearch } from "react-icons/fa";
 const Agent: React.FC = (props) => {
     return (
         <DashboardLayout>
-        Partners
+            Partners
 
-    </DashboardLayout>
+        </DashboardLayout>
     );
 }
 export default Agent;
