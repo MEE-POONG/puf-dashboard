@@ -9,14 +9,16 @@ export default function DashboardLayout({
 
     const openSidebar = () => {
         // Implement openNav functionality
-      };
+    };
 
     return (
         <section>
             {/* <Navbar /> */}
             <Sidebar openSidebar={openSidebar} />
-            <main className="content ml-12 transform ease-in-out duration-500 pt-20 px-2 md:px-9 pb-4">
-                {children}
+            <main className="content ml-12 transform ease-in-out duration-500 pt-20 px-2 md:px-4">
+                <div className="w-full p-2 bg-slate-500 block">
+                    {children}
+                </div>
             </main>
         </section>
     )
