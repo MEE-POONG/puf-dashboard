@@ -21,6 +21,26 @@ model AdminData {
   updateBy  String
 }
 
+model AllianceData {
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  userAccount      String
+  position         String
+  partner          String
+  password         String
+  percent          Float
+  accruedPlus      Boolean
+  getCom           Boolean
+  pay              Boolean
+  adjustPercentage Boolean
+  createdAt        DateTime           @default(now())
+  createdBy        String
+  updateAt         DateTime           @updatedAt
+  updateBy         String
+  partnersData     PartnerData[]
+  reportsData      SelectReportData[]
+  totalWLData      TotalWLData[]
+}
+
 model AffiliateIncomeData {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
   calculateId   String
@@ -32,23 +52,6 @@ model AffiliateIncomeData {
   CalculateData CalculateData[]
 }
 
-// Model สำหรับ AllianceDATA
-model AllianceData {
-  id           String             @id @default(auto()) @map("_id") @db.ObjectId
-  userAccount  String
-  position     String
-  partner      String
-  password     String
-  createdAt    DateTime           @default(now())
-  createdBy    String
-  updateAt     DateTime           @updatedAt
-  updateBy     String
-  partnersData PartnerData[]
-  reportsData  SelectReportData[]
-  totalWLData  TotalWLData[]
-}
-
-// Model สำหรับ CalculateDATA
 model CalculateData {
   id                    String               @id @default(auto()) @map("_id") @db.ObjectId
   listType              String
@@ -64,25 +67,20 @@ model CalculateData {
 
 // Model สำหรับ PartnerDATA
 model PartnerData {
-  id               String        @id @default(auto()) @map("_id") @db.ObjectId
-  allianceId       String
-  percent          Float
-  firstName        String
-  lastName         String
-  bankAccount      String
-  bank             String
-  tel              String
-  line             String
-  accruedPlus      Float
-  getCom           Float
-  pay              Float
-  adjustPercentage Float
-  createdAt        DateTime      @default(now())
-  createdBy        String
-  updateAt         DateTime      @updatedAt
-  updateBy         String
-  AllianceData     AllianceData? @relation(fields: [allianceDataId], references: [id])
-  allianceDataId   String?       @db.ObjectId
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  allianceId     String
+  firstName      String
+  lastName       String
+  bankAccount    String
+  bank           String
+  tel            String
+  line           String
+  createdAt      DateTime      @default(now())
+  createdBy      String
+  updateAt       DateTime      @updatedAt
+  updateBy       String
+  AllianceData   AllianceData? @relation(fields: [allianceDataId], references: [id])
+  allianceDataId String?       @db.ObjectId
 }
 
 // Model สำหรับ ReferFriend
