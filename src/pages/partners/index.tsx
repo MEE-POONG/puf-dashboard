@@ -1,7 +1,31 @@
 import DashboardLayout from "@/components/Layout";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+
+interface Partner {
+    id: number;
+    firstName: string;
+    lastName: string;
+    bankAccount: string;
+    bank: string;
+    tel: string;
+    line: string;
+    allianceId: string;
+}
+
 
 const Partners: React.FC = (props) => {
+    const [partners, setPartners] = useState<Partner[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios.get('/api/partner');
+            setPartners(response.data);
+        };
+        fetchData();
+    }, []);
+
+
     return (
         <DashboardLayout>
             <div className="m-5">
@@ -9,7 +33,10 @@ const Partners: React.FC = (props) => {
                     <h2 className="text-lg font-bold py-3">รายชื่อตัวแทน</h2>
 
                     <div>
-                        ค้นหา:<input type="search" name="" id=""  className="focus:outline-none focus:border-b-2 p-1.5" />
+                        ค้นหา:<input type="search" name="" id="" className="focus:outline-none focus:border-b-2 p-1 border-b" />
+                    </div>
+                    <div>
+                        <button className="px-3 py-1 bg-teal-500 text-white rounded-full hover:bg-teal-700">Add Partner</button>
                     </div>
                 </div>
                 <div className="flex min-h-full items-center justify-center shadow-md rounded-xl  overflow-hidden">
@@ -18,32 +45,30 @@ const Partners: React.FC = (props) => {
                             <thead>
                                 <tr className="bg-gray-200 text-gray-700">
                                     <th className="py-2 px-4 text-left">No.</th>
-                                    <th className="py-2 px-4 text-left">Stock Name</th>
-                                    <th className="py-2 px-4 text-left">Price</th>
-                                    <th className="py-2 px-4 text-left">Quantity</th>
-                                    <th className="py-2 px-4 text-left">Total</th>
+                                    <th className="py-2 px-4 text-left">Name</th>
+                                    <th className="py-2 px-4 text-left">Account No.</th>
+                                    <th className="py-2 px-4 text-left">Bank</th>
+                                    <th className="py-2 px-4 text-left">Tel</th>
+                                    <th className="py-2 px-4 text-left">Line</th>
+                                    <th className="py-2 px-4 text-left">Agency</th>
                                     <th className="py-2 px-4 text-left">Action</th>
                                 </tr>
                             </thead>
                             <tbody className="text-blue-gray-900">
-                                <tr className="border-b border-blue-gray-200">
-                                    <td className="py-3 px-4">1</td>
-                                    <td className="py-3 px-4">Company A</td>
-                                    <td className="py-3 px-4">$50.25</td>
-                                    <td className="py-3 px-4">100</td>
-                                    <td className="py-3 px-4">$5025.00</td>
-                                    <td className="py-3 px-4">
-                                        <a href="#" className="font-medium text-blue-600 hover:text-blue-800">Edit</a>
-                                    </td>
-                                </tr>
-                                {/* <tr className="border-b border-blue-gray-200">
-                                <td className="py-3 px-4"></td>
-                                <td className="py-3 px-4 font-medium">Total Wallet Value</td>
-                                <td className="py-3 px-4"></td>
-                                <td className="py-3 px-4"></td>
-                                <td className="py-3 px-4 font-medium">$22525.00</td>
-                                <td className="py-3 px-4"></td>
-                            </tr> */}
+                                {partners.map((partner, index) => (
+                                    <tr className="border-b border-blue-gray-200" key={partner.id}>
+                                        <td className="py-3 px-4">{index + 1}</td>
+                                        <td className="py-3 px-4">{partner.firstName} {partner.lastName}</td>
+                                        <td className="py-3 px-4">{partner.bankAccount}</td>
+                                        <td className="py-3 px-4">{partner.bank}</td>
+                                        <td className="py-3 px-4">{partner.tel}</td>
+                                        <td className="py-3 px-4">{partner.line} </td>
+                                        <td className="py-3 px-4">{partner.allianceId} </td>
+                                        <td className="py-3 px-4">
+                                            <a href="#" className="font-medium text-blue-600 hover:text-blue-800">Edit</a>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>

@@ -125,7 +125,7 @@ const Sidebar: React.FC<SidenavProps> = ({ openSidebar }) => {
                             </div>
                         </div >
                     </div>
-                    <div className="flex items-center space-x-3 group bg-gradient-to-r from-red-500 via-blue-500 to-yellow-500  pl-10 pr-1 py-1 rounded-full text-white">
+                    <div className="flex items-center space-x-3 group bg-gradient-to-r from-red-500 via-blue-500 to-yellow-500  pl-8 pr-1 py-1 rounded-full text-white">
                         <div className="transform ease-in-out duration-300 mr-11 md:mr-12 font-bold text-sm">
                             PUF - Dashboard
                         </div>
