@@ -106,7 +106,6 @@ const Agent: React.FC = (props) => {
                         ))}
                     </tbody>
                 </table>
-
             </div>
         </DashboardLayout>
     );
