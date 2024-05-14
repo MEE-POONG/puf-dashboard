@@ -18,7 +18,7 @@ model AdminData {
   createdAt DateTime @default(now())
   createdBy String
   updateAt  DateTime @updatedAt
-  updateBy  String  
+  updateBy  String
 }
 
 model AllianceData {
@@ -72,6 +72,7 @@ model PartnerData {
   firstName      String
   lastName       String
   bankAccount    String
+  accountName    String?
   bank           String
   tel            String
   line           String
