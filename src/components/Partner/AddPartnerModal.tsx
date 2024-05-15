@@ -1,22 +1,51 @@
 import axios from "axios";
-import useAxios from "axios-hooks";
 import React, { useState } from "react";
 
 interface AddPartnerModalProps {
     show: boolean;
     onClose: () => void;
-    onSubmit: (data: any) => void;  // Adjust based on what data you need
+    onSubmit: (data: any) => void;  // This may not be needed if API call is handled within the component
 }
 
-const AddPartnerModal: React.FC<AddPartnerModalProps> = ({ show, onClose, onSubmit }) => {
+interface PartnerData {
+    firstName: string;
+    lastName: string;
+    bankAccount: string;
+    bank: string;
+    accountName: string;
+    tel: string;
+    line: string;
+}
+
+const AddPartnerModal: React.FC<AddPartnerModalProps> = ({ show, onClose }) => {
     if (!show) return null;
 
-    const handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
-        const formData = new FormData(event.target as HTMLFormElement);
-        const data = Object.fromEntries(formData.entries());
-        onSubmit(data);
-        onClose();  // Close AddPartnerModal after submitting
+    const [formData, setFormData] = useState<PartnerData>({
+        firstName: '',
+        lastName: '',
+        bankAccount: '',
+        bank: '',
+        accountName: '',
+        tel: '',
+        line: ''
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('/api/partner', formData);
+            console.log('Success:', response.data);
+            onClose(); // Close the modal on successful submission
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
     };
 
     return (
@@ -25,48 +54,20 @@ const AddPartnerModal: React.FC<AddPartnerModalProps> = ({ show, onClose, onSubm
                 <h2 className="text-lg font-bold mb-4">Add New Partner</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4 md:flex gap-5">
-                        <div>
-                            <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">First Name</label>
-                            <input type="text" id="firstName" name="firstName" required className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" />
-                        </div>
-                        <div>
-                            <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">Last Name</label>
-                            <input type="text" id="lastName" name="lastName" required className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" />
-                        </div>
+                        <input type="text" id="firstName" name="firstName" placeholder="First Name" onChange={handleChange} value={formData.firstName} required className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" />
+                        <input type="text" id="lastName" name="lastName" placeholder="Last Name" onChange={handleChange} value={formData.lastName} required className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" />
                     </div>
                     <div className="mb-4 md:flex gap-5">
-                        <div>
-                            <label htmlFor="bankAccount" className="block text-sm font-medium text-gray-700">Account Number</label>
-                            <input type="text" id="bankAccount" name="bankAccount" required className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" />
-                        </div>
-                        <div>
-                            <label htmlFor="bank" className="block text-sm font-medium text-gray-700">Bank</label>
-                            <input type="text" id="bank" name="bank" required className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" />
-                        </div>
+                        <input type="text" id="bankAccount" name="bankAccount" placeholder="Account Number" onChange={handleChange} value={formData.bankAccount} required className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" />
+                        <input type="text" id="bank" name="bank" placeholder="Bank" onChange={handleChange} value={formData.bank} required className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" />
                     </div>
-                    <div className="mb-4">
-                        <label htmlFor="accountName" className="block text-sm font-medium text-gray-700">Account Name</label>
-                        <input type="text" id="accountName" name="accountName" required className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" />
-                    </div>
+                    <input type="text" id="accountName" name="accountName" placeholder="Account Name" onChange={handleChange} value={formData.accountName} required className="mb-4 mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" />
                     <div className="mb-4 md:flex gap-5">
-                        <div>
-                            <label htmlFor="tel" className="block text-sm font-medium text-gray-700">Tel</label>
-                            <input type="number" id="tel" name="tel" required className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" />
-                        </div>
-                        <div>
-                            <label htmlFor="line" className="block text-sm font-medium text-gray-700">Line</label>
-                            <input type="text" id="line" name="line" required className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" />
-                        </div>
+                        <input type="text" id="tel" name="tel" placeholder="Tel" onChange={handleChange} value={formData.tel} required className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" />
+                        <input type="text" id="line" name="line" placeholder="Line" onChange={handleChange} value={formData.line} required className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" />
                     </div>
-                    {/* Add more fields as needed */}
-
-
-                    <button type="submit" className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
-                        Submit
-                    </button>
-                    <button type="button" onClick={onClose} className="ml-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                        Cancel
-                    </button>
+                    <button type="submit" className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+                    <button type="button" onClick={onClose} className="ml-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Cancel</button>
                 </form>
             </div>
         </div>
