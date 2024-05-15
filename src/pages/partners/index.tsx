@@ -16,23 +16,36 @@ interface Partner {
     allianceId: string;
 }
 
-
-const Partners: React.FC = (props) => {
+const Partners: React.FC = () => {
     const [partners, setPartners] = useState<Partner[]>([]);
+    const [filteredPartners, setFilteredPartners] = useState<Partner[]>([]);
+    const [searchQuery, setSearchQuery] = useState('');
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             const response = await axios.get('/api/partner');
             setPartners(response.data);
+            setFilteredPartners(response.data);
         };
         fetchData();
     }, []);
 
+    useEffect(() => {
+        const filterData = () => {
+            const filteredData = partners.filter(partner =>
+                partner.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                partner.accountName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                partner.tel.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+            setFilteredPartners(filteredData);
+        };
+
+        filterData();
+    }, [searchQuery, partners]);
+
     const handleAddPartner = (data: any) => {
-        // Handle the submission logic here
         console.log(data);
-        // Perhaps send a POST request to your API
     };
 
     return (
@@ -42,7 +55,12 @@ const Partners: React.FC = (props) => {
                     <h2 className="text-lg font-bold py-3">รายชื่อตัวแทน</h2>
 
                     <div>
-                        ค้นหา:<input type="search" name="" id="" className="focus:outline-none focus:border-b-2 p-1 border-b" />
+                        ค้นหา:<input
+                            type="search"
+                            className="focus:outline-none focus:border-b-2 p-1 border-b"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
                     </div>
                     <div className="mt-5 md:mt-0">
                         <button onClick={() => setShowModal(true)} className="px-3 py-1 bg-teal-500 text-white rounded-full hover:bg-teal-700 text-sm">Add Partner</button>
@@ -51,7 +69,7 @@ const Partners: React.FC = (props) => {
                 </div>
                 <div className="flex min-h-full items-center justify-center shadow-md rounded-xl  overflow-hidden">
                     <div className="overflow-x-auto w-full">
-                        <table className="min-w-full bg-white ">
+                        <table className="min-w-full bg-white">
                             <thead>
                                 <tr className="bg-gray-200 text-gray-700">
                                     <th className="py-2 px-4 text-left">No.</th>
@@ -66,7 +84,7 @@ const Partners: React.FC = (props) => {
                                 </tr>
                             </thead>
                             <tbody className="text-blue-gray-900">
-                                {partners.map((partner, index) => (
+                                {filteredPartners.map((partner, index) => (
                                     <tr className="border-b border-blue-gray-200" key={partner.id}>
                                         <td className="py-3 px-4">{index + 1}</td>
                                         <td className="py-3 px-4">{partner.firstName} {partner.lastName}</td>
@@ -74,8 +92,8 @@ const Partners: React.FC = (props) => {
                                         <td className="py-3 px-4">{partner.bank}</td>
                                         <td className="py-3 px-4">{partner.accountName}</td>
                                         <td className="py-3 px-4">{partner.tel}</td>
-                                        <td className="py-3 px-4">{partner.line} </td>
-                                        <td className="py-3 px-4">{partner.allianceId} </td>
+                                        <td className="py-3 px-4">{partner.line}</td>
+                                        <td className="py-3 px-4">{partner.allianceId}</td>
                                         <td className="py-3 px-4 flex items-center gap-3">
                                             <a href="#" className="font-medium text-blue-600 hover:text-blue-800"><CiEdit /></a>
                                             <a href="#" className="font-medium text-red-600 hover:text-blue-800"><CiTrash /></a>
@@ -90,4 +108,5 @@ const Partners: React.FC = (props) => {
         </DashboardLayout>
     );
 }
+
 export default Partners;
