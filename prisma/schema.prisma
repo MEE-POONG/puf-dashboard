@@ -71,7 +71,6 @@ model PartnerData {
   firstName    String
   lastName     String
   bankAccount  String
-  accountName  String?
   bank         String
   tel          String
   line         String

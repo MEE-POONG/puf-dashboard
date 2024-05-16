@@ -58,7 +58,7 @@ const AgentPage: React.FC = () => {
                         <div className="relative flex">
                             <select
                                 className="bg-white h-10 pl-2 rounded-l-full text-sm focus:outline-none outline-none border-2 border-gray-500 border-r-1 cursor-pointer max-h-10 overflow-y-hidden">
-                                <option selected value="">Senior</option>
+                                <option selected value="senior">Senior</option>
                                 <option value="master">Master</option>
                                 <option value="agent">Agent</option>
                             </select>
