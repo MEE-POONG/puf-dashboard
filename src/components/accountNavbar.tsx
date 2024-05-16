@@ -13,7 +13,7 @@ const AccoutNavbar: React.FC = () => {
         <div className="relative">
             <div className="flex-none h-full text-center flex items-center justify-center">
                 <button onClick={toggleDropdown} className='hover:text-red-700'>
-                    <BiUser />
+                    <BiUser size={20} />
                 </button>
             </div>
             {dropdownOpen && (
