@@ -25,7 +25,6 @@ model AllianceData {
   id               String             @id @default(auto()) @map("_id") @db.ObjectId
   userAccount      String
   position         String
-  partner          String
   password         String
   percent          Float
   accruedPlus      Boolean
@@ -36,9 +35,10 @@ model AllianceData {
   createdBy        String
   updateAt         DateTime           @updatedAt
   updateBy         String
-  partnersData     PartnerData[]
   reportsData      SelectReportData[]
   totalWLData      TotalWLData[]
+  PartnerData      PartnerData?       @relation(fields: [partnersDataId], references: [id])
+  partnersDataId   String?            @db.ObjectId
 }
 
 model AffiliateIncomeData {
@@ -67,21 +67,19 @@ model CalculateData {
 
 // Model สำหรับ PartnerDATA
 model PartnerData {
-  id             String        @id @default(auto()) @map("_id") @db.ObjectId
-  allianceId     String
-  firstName      String
-  lastName       String
-  bankAccount    String
-  accountName    String?
-  bank           String
-  tel            String
-  line           String
-  createdAt      DateTime      @default(now())
-  createdBy      String
-  updateAt       DateTime      @updatedAt
-  updateBy       String
-  AllianceData   AllianceData? @relation(fields: [allianceDataId], references: [id])
-  allianceDataId String?       @db.ObjectId
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  firstName    String
+  lastName     String
+  bankAccount  String
+  accountName  String?
+  bank         String
+  tel          String
+  line         String
+  createdAt    DateTime       @default(now())
+  createdBy    String
+  updateAt     DateTime       @updatedAt
+  updateBy     String
+  AllianceData AllianceData[]
 }
 
 // Model สำหรับ ReferFriend
