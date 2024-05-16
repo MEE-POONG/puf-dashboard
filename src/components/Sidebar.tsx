@@ -6,6 +6,7 @@ import { TbClipboardList } from "react-icons/tb";
 import { useRouter } from 'next/router';
 import { RiRobot3Fill } from "react-icons/ri";
 import { MdAdminPanelSettings } from "react-icons/md";
+import AccoutNavbar from "./accountNavbar";
 
 interface SubmenuItem {
     href: string;
@@ -24,14 +25,14 @@ interface SidenavProps {
 }
 
 
-const Sidebar: React.FC<SidenavProps> = ({ openSidebar }) => {     
+const Sidebar: React.FC<SidenavProps> = ({ openSidebar }) => {
     // Menu Sidebar
     const navigationItems: MenuItem[] = [
         { href: '/', text: 'Home', icon: <IoMdHome /> },
         { href: '/partners', text: 'รายชื่อตัวเเทน', icon: <FaUserCog /> },
         { href: '/agent', text: 'พันธมิตร', icon: <IoIosListBox /> },
         { href: '/reportWL', text: 'Report', icon: <TbClipboardList /> },
-        { href: '/', text: 'BOT', icon: <RiRobot3Fill />},
+        { href: '/', text: 'BOT', icon: <RiRobot3Fill /> },
         { href: '/admin', text: 'Admin', icon: <MdAdminPanelSettings /> },
     ];
 
@@ -106,6 +107,7 @@ const Sidebar: React.FC<SidenavProps> = ({ openSidebar }) => {
                 </div>
                 {/* <!-- SPACER --> */}
                 <div className="grow h-full flex items-center justify-center"></div>
+                <AccoutNavbar />
             </div>
 
             <aside className={`w-60 ${isMaxSidebar ? '' : '-translate-x-48'} fixed transition transform ease-in-out duration-1000 z-50 flex h-screen bg-[#1E293B]`}>
