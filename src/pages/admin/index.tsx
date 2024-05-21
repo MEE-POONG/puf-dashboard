@@ -15,6 +15,8 @@ interface Admin {
 
 const Admin: React.FC = (props) => {
     const [admins, setAdmins] = useState<Admin[]>([]);
+    const [filteredAdmins, setFilteredAdmins] = useState<Admin[]>([]);
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -23,6 +25,20 @@ const Admin: React.FC = (props) => {
         };
         fetchData();
     }, []);
+
+    useEffect(() => {
+        const filterData = () => {
+            const filteredData = admins.filter(admins =>
+                admins.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                admins.tel.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+            setFilteredAdmins(filteredData);
+        };
+
+        filterData();
+    }, [searchQuery, admins]);
+
+
     return (
         <DashboardLayout>
             <div className="m-5">
@@ -30,7 +46,12 @@ const Admin: React.FC = (props) => {
                     <h2 className="text-lg font-bold py-3">รายชื่อตัวแทน</h2>
 
                     <div>
-                        ค้นหา:<input type="search" name="" id="" className="focus:outline-none focus:border-b-2 p-1 border-b" />
+                        ค้นหา:<input
+                            type="search"
+                            className="focus:outline-none focus:border-b-2 p-1 border-b"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
                     </div>
                     <div className="mt-5 md:mt-0">
                         <button className="px-3 py-1 bg-teal-500 text-white rounded-full hover:bg-teal-700 text-sm">Add Partner</button>
@@ -51,9 +72,9 @@ const Admin: React.FC = (props) => {
                                 </tr>
                             </thead>
                             <tbody className="text-blue-gray-900">
-                                {admins.map((admins, index) => (
+                                {filteredAdmins.map((admins, index) => (
                                     <tr className="border-b border-blue-gray-200" key={admins.id}>
-                                        <td className="py-3 px-4">{index +1}</td>
+                                        <td className="py-3 px-4">{index + 1}</td>
                                         <td className="py-3 px-4">{admins.name}</td>
                                         <td className="py-3 px-4">{admins.username}</td>
                                         <td className="py-3 px-4">{admins.password}</td>
