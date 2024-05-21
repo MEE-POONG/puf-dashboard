@@ -33,6 +33,7 @@ const AgentPage: React.FC = () => {
     const [filteredPartners, setFilteredPartners] = useState<Partner[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [selectedRole, setSelectedRole] = useState('senior'); // Added state for selected role
 
     useEffect(() => {
         const fetchData = async () => {
@@ -73,7 +74,9 @@ const AgentPage: React.FC = () => {
             pageSize: size,
         }));
     };
-
+    const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedRole(event.target.value);
+    };
     return (
         <DashboardLayout>
             <div className="md:flex items-center justify-between my-3">
@@ -81,8 +84,10 @@ const AgentPage: React.FC = () => {
                 <div className="p-4 text-gray-600 outline-none focus:outline-none ">
                     <div className="relative flex">
                         <select
+                            defaultValue={selectedRole} // Using value prop
+                            onChange={handleRoleChange} // Handling change event
                             className="bg-white h-10 pl-2 rounded-l-full text-sm focus:outline-none outline-none border-2 border-gray-500 border-r-1 cursor-pointer max-h-10 overflow-y-hidden">
-                            <option selected value="senior">Senior</option>
+                            <option value="senior">Senior</option>
                             <option value="master">Master</option>
                             <option value="agent">Agent</option>
                         </select>
@@ -158,7 +163,7 @@ const AgentPage: React.FC = () => {
                 </div>
             </div>
             <div className="card-footer">
-                <PageSelect page={params?.page} totalPages={params?.totalPages} onChangePage={handleChangePage} onChangePageSize={handleChangePageSize} />
+                <PageSelect page={params?.page} pageSize={params?.pageSize} totalPages={params?.totalPages} onChangePage={handleChangePage} onChangePageSize={handleChangePageSize} />
             </div>
         </DashboardLayout>
     );
