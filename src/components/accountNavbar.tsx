@@ -23,7 +23,7 @@ const AccoutNavbar: React.FC = () => {
                             <Link href="/profile">Profile</Link>
                         </li>
                         <li className="px-4 py-2 hover:bg-gray-950 hover:text-white cursor-pointer">
-                            <Link href="/logout">Logout</Link>
+                            <Link href="/login">Logout</Link>
                         </li>
                     </ul>
                 </div>
