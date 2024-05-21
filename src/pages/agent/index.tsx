@@ -37,25 +37,25 @@ const AgentPage: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get('/api/partner');
+            const response = await axios.get('/api/alliance');
             setPartners(response.data);
             setFilteredPartners(response.data);
         };
         fetchData();
     }, []);
 
-    useEffect(() => {
-        const filterData = () => {
-            const filteredData = partners.filter(partner =>
-                partner.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                partner.accountName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                partner.tel.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-            setFilteredPartners(filteredData);
-        };
+    // useEffect(() => {
+    //     const filterData = () => {
+    //         const filteredData = partners.filter(partner =>
+    //             partner.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    //             partner.accountName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    //             partner.tel.toLowerCase().includes(searchQuery.toLowerCase())
+    //         );
+    //         setFilteredPartners(filteredData);
+    //     };
 
-        filterData();
-    }, [searchQuery, partners]);
+    //     filterData();
+    // }, [searchQuery, partners]);
 
     const handleAddPartner = (data: any) => {
         console.log(data);

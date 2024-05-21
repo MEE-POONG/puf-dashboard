@@ -17,8 +17,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
             break;
         case 'POST':
-            console.log(req.body);
-            
             try {
                 // Create a new AllianceData record
                 const alliance = await prisma.allianceData.create({
