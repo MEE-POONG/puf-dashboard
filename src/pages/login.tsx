@@ -1,6 +1,13 @@
 import Image from "next/image";
+import { useState } from "react";
+import { BiHide, BiShow } from "react-icons/bi";
 
-const LoginForm: React.FC = () => {
+const LoginForm: React.FC = (props) => {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
     return (
         <div className="flex min-h-screen w-screen items-center justify-center text-gray-600 bg-gray-50">
             <div className="relative">
@@ -37,7 +44,20 @@ const LoginForm: React.FC = () => {
                                     </a>
                                 </div>
                                 <div className="relative flex w-full flex-wrap items-stretch">
-                                    <input type="password" id="password" className="relative block flex-auto cursor-text appearance-none rounded-md border border-gray-400 bg--100 py-2 px-3 text-sm outline-none focus:border-indigo-500 focus:bg-white focus:text-gray-600 focus:shadow" name="password" placeholder="············" />
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        id="password"
+                                        className="relative block flex-auto cursor-text appearance-none rounded-md border border-gray-400 bg--100 py-2 px-3 text-sm outline-none focus:border-indigo-500 focus:bg-white focus:text-gray-600 focus:shadow"
+                                        name="password"
+                                        placeholder="············"
+                                    />
+                                    <button
+                                        type="button"
+                                        className="absolute right-3 top-2/4 transform -translate-y-2/4 text-gray-600 focus:outline-none"
+                                        onClick={togglePasswordVisibility}
+                                    >
+                                        {showPassword ? <BiHide /> : <BiShow />}
+                                    </button>
                                 </div>
                             </div>
                             <div className="mb-4">
