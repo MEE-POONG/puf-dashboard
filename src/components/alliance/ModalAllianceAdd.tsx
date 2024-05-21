@@ -11,11 +11,12 @@ interface PartnerData {
     userAccount: string;
     position: string;
     counselor: string;
-    percent: string;
+    percent: number;
     accruedPlus: boolean;
     getCom: boolean;
     pay: boolean;
     adjustPercentage: boolean;
+    createdBy: string;
 }
 
 const ModalAllianceAdd: React.FC<AddPartnerModalProps> = ({ show, onClose }) => {
@@ -25,11 +26,12 @@ const ModalAllianceAdd: React.FC<AddPartnerModalProps> = ({ show, onClose }) => 
         userAccount: '',
         position: '',
         counselor: '',
-        percent: '',
+        percent: 0,
         accruedPlus: false,
         getCom: false,
         pay: false,
         adjustPercentage: false,
+        createdBy: 'zxcvbfsadertyui',
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {

@@ -17,6 +17,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
             break;
         case 'POST':
+            console.log(req.body);
+            
             try {
                 // Create a new AllianceData record
                 const alliance = await prisma.allianceData.create({
@@ -24,6 +26,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 });
                 res.status(201).json(alliance);
             } catch (error) {
+                console.log(error);
+                
                 res.status(500).json({ error: "An error occurred while creating the alliance data" });
             }
             break;
