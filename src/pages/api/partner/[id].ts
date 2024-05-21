@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const prisma = new PrismaClient();
@@ -9,26 +9,55 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
         case 'GET':
             try {
-                // Retrieve all PartnerData records
-                const partners = await prisma.partnerData.findMany();
-                res.status(200).json(partners);
+                const id = req.query.id;
+
+                const data = await prisma.partnerData.findUnique({
+                    where: {
+                        id: id as string,
+                    },
+                });
+
+                res.status(200).json(data);
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while fetching partner data" });
+                res.status(500).json({ error: "An error occurred while fetching the data" });
             }
             break;
-        case 'POST':
+
+        case 'PUT':
             try {
-                // Create a new PartnerData record
-                const partner = await prisma.partnerData.create({
+                const id = req.query.id;
+
+                const data = await prisma.partnerData.update({
+                    where: {
+                        id: id as string,
+                    },
                     data: req.body,
                 });
-                res.status(201).json(partner);
+
+                res.status(200).json(data);
             } catch (error) {
-                res.status(500).json({ error: "An error occurred while creating the partner data" });
+                res.status(500).json({ error: "An error occurred while updating the data" });
             }
             break;
+
+        case 'DELETE':
+            try {
+                const id = req.query.id;
+
+                const data = await prisma.partnerData.delete({
+                    where: {
+                        id: id as string,
+                    },
+                });
+
+                res.status(200).json(data);
+            } catch (error) {
+                res.status(500).json({ error: "An error occurred while deleting the data" });
+            }
+            break;
+
         default:
-            res.setHeader('Allow', ['GET', 'POST']);
+            res.setHeader('Allow', ['GET', 'PUT', 'DELETE']);
             res.status(405).end(`Method ${method} Not Allowed`);
     }
 }
