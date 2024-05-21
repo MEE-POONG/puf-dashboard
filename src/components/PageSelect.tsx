@@ -1,11 +1,12 @@
 import React from 'react';
 interface PageSelectProps {
     page: number;
+    pageSize: number;
     totalPages: number;
     onChangePage: (size: number) => void;
     onChangePageSize: (size: number) => void;
 }
-const PageSelect: React.FC<PageSelectProps> = ({ page, totalPages, onChangePage, onChangePageSize }) => {
+const PageSelect: React.FC<PageSelectProps> = ({ page, pageSize, totalPages, onChangePage, onChangePageSize }) => {
     let paginationItems = [];
 
     let start = page - 2;
@@ -40,15 +41,16 @@ const PageSelect: React.FC<PageSelectProps> = ({ page, totalPages, onChangePage,
         <nav className="flex items-center flex-column flex-wrap md:flex-row justify-between py-4" aria-label="Table navigation">
             <span className="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
                 Showing
-                <span className="font-semibold text-gray-900 dark:text-white mx-2">1-10</span>
+                <span className="font-semibold text-gray-900 dark:text-white mx-2">1 - 10</span>
                 of
                 <select
+                    defaultValue={pageSize}
                     className=" mx-2 items-center justify-center px-3 h-8  text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <option selected value="10">10</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                    <option value="500">500</option>
-                    <option value="1000">1000</option>
+                    <option value={10}>10</option>
+                    <option value={50}>50</option>
+                    <option value={100}>100</option>
+                    <option value={500}>500</option>
+                    <option value={1000}>1000</option>
                 </select>
             </span>
             <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">

@@ -58,7 +58,7 @@ const ModalAllianceAdd: React.FC<AddPartnerModalProps> = ({ show, onClose }) => 
                 <h2 className="text-lg font-bold mb-4">เพิ่ม userAccount</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="grid gap-6 mb-6 md:grid-cols-2">
-                        <div>
+                        {/* <div>
                             <label htmlFor="position" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">เลือกระดับยูส</label>
                             <select id="position" name="position" className="p-2 w-full border border-gray-300 rounded-md shadow-sm">
                                 <option value="" disabled selected>กรุณาเลือกตำแหน่ง</option>
@@ -72,7 +72,7 @@ const ModalAllianceAdd: React.FC<AddPartnerModalProps> = ({ show, onClose }) => 
                             <select id="counselor" name="counselor" className="p-2 w-full border border-gray-300 rounded-md shadow-sm">
                                 <option value="" disabled selected>เลือกยูสต้นสาย</option>
                             </select>
-                        </div>
+                        </div> */}
                         <div>
                             <label htmlFor="userAccount" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ยูสเซอร์ AG</label>
                             <input type="text" id="userAccount" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="ระบุยูสพันธมิตร" required />
