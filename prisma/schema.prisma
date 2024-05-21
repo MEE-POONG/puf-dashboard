@@ -26,6 +26,7 @@ model AllianceData {
   userAccount      String
   position         String
   password         String
+  counselor        String
   percent          Float
   accruedPlus      Boolean
   getCom           Boolean
