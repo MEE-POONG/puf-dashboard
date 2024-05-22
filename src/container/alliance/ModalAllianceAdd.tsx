@@ -118,10 +118,15 @@ const ModalAllianceAdd: React.FC<AddPartnerModalProps> = ({ show, onClose, onSub
         }
     };
 
+    const handleCloseStatus = () => {
+        setStatus(null);
+        setStatusMessage('');
+    };
+
     return (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 h-screen">
             <div className="bg-white rounded-lg shadow-lg relative">
-                <CheckStatusLoad status={status} message={statusMessage} />
+                <CheckStatusLoad status={status} message={statusMessage} onClose={handleCloseStatus} />
                 <div className="card m-5">
                     <h2 className="text-lg font-bold mb-4">เพิ่ม userAccount</h2>
                     <form onSubmit={handleSubmit}>
