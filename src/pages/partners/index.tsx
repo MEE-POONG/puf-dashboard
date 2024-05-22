@@ -33,11 +33,12 @@ const Partners: React.FC = () => {
 
     useEffect(() => {
         const filterData = () => {
-            const filteredData = partners.filter(partner =>
-                partner.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                partner.accountName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                partner.tel.toLowerCase().includes(searchQuery.toLowerCase())
-            );
+            const filteredData = partners.filter(partner => {
+                const firstNameMatch = partner.firstName?.toLowerCase().includes(searchQuery.toLowerCase()) || false;
+                const accountNameMatch = partner.accountName?.toLowerCase().includes(searchQuery.toLowerCase()) || false;
+                const telMatch = partner.tel?.toLowerCase().includes(searchQuery.toLowerCase()) || false;
+                return firstNameMatch || accountNameMatch || telMatch;
+            });
             setFilteredPartners(filteredData);
         };
 
@@ -67,7 +68,7 @@ const Partners: React.FC = () => {
                     </div>
                     <AddPartnerModal show={showModal} onClose={() => setShowModal(false)} onSubmit={handleAddPartner} />
                 </div>
-                <div className="flex min-h-full items-center justify-center shadow-md rounded-xl  overflow-hidden">
+                <div className="flex min-h-full items-center justify-center shadow-md rounded-xl overflow-hidden">
                     <div className="overflow-x-auto w-full">
                         <table className="min-w-full bg-white">
                             <thead>
