@@ -22,7 +22,7 @@ interface Params {
     search: string;
     totalPages: number;
 }
-const AgentPage: React.FC = () => {
+const AlliancePage: React.FC = () => {
     const [params, setParams] = useState<Params>({
         page: 1,
         pageSize: 10,
@@ -37,29 +37,22 @@ const AgentPage: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get('/api/alliance');
-            setAlliances(response.data);
-            setFilteredAlliances(response.data);
+            try {
+                const response = await axios.get('/api/alliance');
+                setAlliances(response.data);
+                setFilteredAlliances(response.data);
+            } catch (error) {
+                console.error('Error fetching alliance data:', error);
+            }
         };
         fetchData();
     }, []);
 
-    // useEffect(() => {
-    //     const filterData = () => {
-    //         const filteredData = partners.filter(partner =>
-    //             partner.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    //             partner.accountName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    //             partner.tel.toLowerCase().includes(searchQuery.toLowerCase())
-    //         );
-    //         setFilteredPartners(filteredData);
-    //     };
-
-    //     filterData();
-    // }, [searchQuery, partners]);
-
     const handleAddPartner = (data: any) => {
-        console.log(data);
+        setAlliances((prevAlliances) => [data, ...prevAlliances]);
+        setShowModal(false);
     };
+
     const handleChangePage = (page: number) => {
         setParams((prevParams) => ({
             ...prevParams,
@@ -74,9 +67,11 @@ const AgentPage: React.FC = () => {
             pageSize: size,
         }));
     };
+
     const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedRole(event.target.value);
     };
+
     return (
         <DashboardLayout>
             <div className="md:flex items-center justify-between my-3">
@@ -84,7 +79,7 @@ const AgentPage: React.FC = () => {
                 <div className="p-4 text-gray-600 outline-none focus:outline-none ">
                     <div className="relative flex">
                         <select
-                            defaultValue={selectedRole} // Using value prop
+                            value={selectedRole} // Using value prop
                             onChange={handleRoleChange} // Handling change event
                             className="bg-white h-10 pl-2 rounded-l-full text-sm focus:outline-none outline-none border-2 border-gray-500 border-r-1 cursor-pointer max-h-10 overflow-y-hidden">
                             <option value="senior">Senior</option>
@@ -92,9 +87,9 @@ const AgentPage: React.FC = () => {
                             <option value="agent">Agent</option>
                         </select>
                         <input
-                            // type="search"
+                            type="search"
                             name="search"
-                            placeholder="User Ag"
+                            placeholder="Search User"
                             className="bg-white h-10 flex px-5 w-full rounded-r-full text-sm focus:outline-none border-2 border-l-0 border-gray-500"
                             autoComplete="off"
                             spellCheck="false"
@@ -102,6 +97,8 @@ const AgentPage: React.FC = () => {
                             step="any"
                             autoCapitalize="none"
                             autoFocus
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                         />
                         <button type="submit" className="absolute inline-flex items-center h-10 my-auto px-3 py-2  text-white text-sm transition duration-150 ease-in-out rounded-full outline-none right-0 bg-teal-500 sm:px-3 sm:text-base sm:font-medium hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
                             <FaSearch />
@@ -113,17 +110,17 @@ const AgentPage: React.FC = () => {
                 </div>
                 <ModalAllianceAdd show={showModal} onClose={() => setShowModal(false)} onSubmit={handleAddPartner} />
             </div>
-            <div className="flex min-h-full items-center justify-center shadow-md rounded-xl  overflow-hidden">
+            <div className="flex min-h-full items-center justify-center shadow-md rounded-xl overflow-hidden">
                 <div className="overflow-x-auto w-full">
                     <table className="min-w-full bg-white">
                         <thead>
                             <tr className="bg-gray-200 text-gray-700">
                                 <th className="py-2 px-4 text-left">No.</th>
-                                <th className="py-2 px-4 text-left">userAccount</th>
+                                <th className="py-2 px-4 text-left">User Account</th>
                                 <th className="py-2 px-4 text-left">%</th>
-                                <th className="py-2 px-4 text-left">ยอดค้างบวก</th>
-                                <th className="py-2 px-4 text-left">ค่าคอม</th>
-                                <th className="py-2 px-4 text-left">จ่าย</th>
+                                <th className="py-2 px-4 text-left">Accrued Plus</th>
+                                <th className="py-2 px-4 text-left">Com</th>
+                                <th className="py-2 px-4 text-left">Pay</th>
                                 <th className="py-2 px-4 text-left">Manager</th>
                             </tr>
                         </thead>
@@ -163,10 +160,10 @@ const AgentPage: React.FC = () => {
                 </div>
             </div>
             <div className="card-footer">
-                <PageSelect page={params?.page} pageSize={params?.pageSize} totalPages={params?.totalPages} onChangePage={handleChangePage} onChangePageSize={handleChangePageSize} />
+                <PageSelect page={params.page} pageSize={params.pageSize} totalPages={params.totalPages} onChangePage={handleChangePage} onChangePageSize={handleChangePageSize} />
             </div>
         </DashboardLayout>
     );
 }
 
-export default AgentPage;
+export default AlliancePage;

@@ -1,4 +1,4 @@
-import StatusCard from "@/components/Home/StatusCard";
+import StatusCard from "@/container/Home/StatusCard";
 import DashboardLayout from "@/components/Layout";
 import React from "react";
 

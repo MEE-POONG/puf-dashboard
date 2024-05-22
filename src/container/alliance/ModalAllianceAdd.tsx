@@ -25,6 +25,8 @@ interface CheckUserAccountResponse {
 const ModalAllianceAdd: React.FC<AddPartnerModalProps> = ({ show, onClose, onSubmit }) => {
     if (!show) return null;
     const [error, setError] = useState<string | null>(null);
+    const [status, setStatus] = useState<'loading' | 'error' | 'success' | null>(null);
+    const [statusMessage, setStatusMessage] = useState<string>('');
     const [formData, setFormData] = useState<PartnerData>({
         userAccount: '',
         position: '',
@@ -60,18 +62,26 @@ const ModalAllianceAdd: React.FC<AddPartnerModalProps> = ({ show, onClose, onSub
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setStatus('loading');
+        setStatusMessage('Loading กำลังโหลด');
 
         // Basic validation
         if (!formData.position) {
             setError("กรุณาเลือกตำแหน่ง");
+            setStatus('error');
+            setStatusMessage("กรุณาเลือกตำแหน่ง");
             return;
         }
         if (formData.position !== 'senior' && !formData.counselor) {
             setError("กรุณาเลือกยูสต้นสาย");
+            setStatus('error');
+            setStatusMessage("กรุณาเลือกยูสต้นสาย");
             return;
         }
         if (!formData.userAccount) {
             setError("กรุณาระบุยูสพันธมิตร");
+            setStatus('error');
+            setStatusMessage("กรุณาระบุยูสพันธมิตร");
             return;
         }
 
@@ -80,11 +90,15 @@ const ModalAllianceAdd: React.FC<AddPartnerModalProps> = ({ show, onClose, onSub
             const checkResponse = await axios.get<CheckUserAccountResponse>(`/api/alliance/checkUserAccount`, { params: { userAccount: formData.userAccount } });
             if (!checkResponse.data.isUnique) {
                 setError("ยูสเซอร์นี้มีอยู่แล้วในฐานข้อมูล");
+                setStatus('error');
+                setStatusMessage("ยูสเซอร์นี้มีอยู่แล้วในฐานข้อมูล");
                 return;
             }
         } catch (error) {
             console.error('Error checking userAccount:', error);
             setError('An error occurred while checking the user account');
+            setStatus('error');
+            setStatusMessage('An error occurred while checking the user account');
             return;
         }
 
@@ -94,16 +108,20 @@ const ModalAllianceAdd: React.FC<AddPartnerModalProps> = ({ show, onClose, onSub
             console.log('Success:', response.data);
             onSubmit(response.data);
             onClose();
+            setStatus('success');
+            setStatusMessage('Partner added successfully');
         } catch (error) {
             console.error('Error submitting form:', error);
             setError('An error occurred while creating the alliance data');
+            setStatus('error');
+            setStatusMessage('An error occurred while creating the alliance data');
         }
     };
 
     return (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 h-screen">
             <div className="bg-white rounded-lg shadow-lg relative">
-                <CheckStatusLoad />
+                <CheckStatusLoad status={status} message={statusMessage} />
                 <div className="card m-5">
                     <h2 className="text-lg font-bold mb-4">เพิ่ม userAccount</h2>
                     <form onSubmit={handleSubmit}>
