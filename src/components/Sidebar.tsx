@@ -6,7 +6,7 @@ import { TbClipboardList } from "react-icons/tb";
 import { useRouter } from 'next/router';
 import { RiRobot3Fill } from "react-icons/ri";
 import { MdAdminPanelSettings } from "react-icons/md";
-import AccoutNavbar from "./DAccountNavbar";
+import AccoutNavbar from "./AccountNavbar";
 
 interface SubmenuItem {
     href: string;
@@ -30,7 +30,7 @@ const Sidebar: React.FC<SidenavProps> = ({ openSidebar }) => {
     const navigationItems: MenuItem[] = [
         { href: '/', text: 'Home', icon: <IoMdHome /> },
         { href: '/partners', text: 'รายชื่อตัวเเทน', icon: <FaUserCog /> },
-        { href: '/agent', text: 'พันธมิตร', icon: <IoIosListBox /> },
+        { href: '/Alliance', text: 'พันธมิตร', icon: <IoIosListBox /> },
         { href: '/reportWL', text: 'Report', icon: <TbClipboardList /> },
         { href: '/', text: 'BOT', icon: <RiRobot3Fill /> },
         { href: '/admin', text: 'Admin', icon: <MdAdminPanelSettings /> },
