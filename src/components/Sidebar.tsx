@@ -6,7 +6,7 @@ import { TbClipboardList } from "react-icons/tb";
 import { useRouter } from 'next/router';
 import { RiRobot3Fill } from "react-icons/ri";
 import { MdAdminPanelSettings } from "react-icons/md";
-import AccoutNavbar from "./accountNavbar";
+import AccoutNavbar from "./DAccountNavbar";
 
 interface SubmenuItem {
     href: string;

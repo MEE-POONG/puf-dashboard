@@ -5,7 +5,7 @@ import axios from "axios";
 import { FaSearch } from "react-icons/fa";
 import PageSelect from "@/components/PageSelect";
 
-interface Partner {
+interface Alliance {
     id: number;
     firstName: string;
     lastName: string;
@@ -29,8 +29,8 @@ const AgentPage: React.FC = () => {
         search: "",
         totalPages: 1,
     });
-    const [partners, setPartners] = useState<Partner[]>([]);
-    const [filteredPartners, setFilteredPartners] = useState<Partner[]>([]);
+    const [Alliances, setAlliances] = useState<Alliance[]>([]);
+    const [filteredAlliances, setFilteredAlliances] = useState<Alliance[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [selectedRole, setSelectedRole] = useState('senior'); // Added state for selected role
@@ -38,8 +38,8 @@ const AgentPage: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             const response = await axios.get('/api/alliance');
-            setPartners(response.data);
-            setFilteredPartners(response.data);
+            setAlliances(response.data);
+            setFilteredAlliances(response.data);
         };
         fetchData();
     }, []);
