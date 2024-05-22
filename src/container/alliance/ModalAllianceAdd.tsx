@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import CheckStatusLoad from "../CheckStatusLoad";
+import CheckStatusLoad from "@/components/CheckStatusLoad";
 
 interface AddPartnerModalProps {
     show: boolean;

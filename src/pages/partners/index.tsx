@@ -1,5 +1,5 @@
 import DashboardLayout from "@/components/Layout";
-import AddPartnerModal from "@/components/Partner/AddPartnerModal";
+import AddPartnerModal from "@/container/Partner/AddPartnerModal";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { CiEdit, CiTrash } from "react-icons/ci";

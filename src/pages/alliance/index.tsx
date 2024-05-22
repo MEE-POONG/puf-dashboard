@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ModalAllianceAdd from "@/components/alliance/ModalAllianceAdd";
+import ModalAllianceAdd from "@/container/alliance/ModalAllianceAdd";
 import DashboardLayout from "@/components/Layout";
 import axios from "axios";
 import { FaSearch } from "react-icons/fa";
