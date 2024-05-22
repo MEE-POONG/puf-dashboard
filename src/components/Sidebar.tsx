@@ -30,7 +30,7 @@ const Sidebar: React.FC<SidenavProps> = ({ openSidebar }) => {
     const navigationItems: MenuItem[] = [
         { href: '/', text: 'Home', icon: <IoMdHome /> },
         { href: '/partners', text: 'รายชื่อตัวเเทน', icon: <FaUserCog /> },
-        { href: '/Alliance', text: 'พันธมิตร', icon: <IoIosListBox /> },
+        { href: '/alliance', text: 'พันธมิตร', icon: <IoIosListBox /> },
         { href: '/reportWL', text: 'Report', icon: <TbClipboardList /> },
         { href: '/', text: 'BOT', icon: <RiRobot3Fill /> },
         { href: '/admin', text: 'Admin', icon: <MdAdminPanelSettings /> },
