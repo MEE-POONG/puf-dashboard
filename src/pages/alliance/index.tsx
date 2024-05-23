@@ -37,16 +37,26 @@ const AlliancePage: React.FC = () => {
     const [selectedRole, setSelectedRole] = useState('senior'); // Added state for selected role
 
     useEffect(() => {
+        console.log(params);
         const fetchData = async () => {
             try {
-                const response = await axios.get('/api/alliance');
-                setFilteredAlliances(response.data);
+                const queryParameters = new URLSearchParams({
+                    search: searchQuery,
+                    position: selectedRole,
+                    page: params.page.toString(),
+                    pageSize: params.pageSize.toString(),
+                }).toString();
+    
+                const response = await axios.get(`/api/alliance/search?${queryParameters}`);
+                setFilteredAlliances(response.data.data);  // Ensure the data path is correct based on your API response structure
+                setParams(prev => ({ ...prev, totalPages: response.data.pagination.totalPages }));  // Update total pages if pagination is returned
             } catch (error) {
                 console.error('Error fetching alliance data:', error);
             }
         };
+    
         fetchData();
-    }, []);
+    }, [searchQuery, selectedRole, params.page, params.pageSize]);
 
 
     const handleChangePage = (page: number) => {
