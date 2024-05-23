@@ -1,12 +1,12 @@
 import React from 'react';
-interface PageSelectProps {
+interface PaginationSelcetProps {
     page: number;
     pageSize: number;
     totalPages: number;
     onChangePage: (size: number) => void;
     onChangePageSize: (size: number) => void;
 }
-const PageSelect: React.FC<PageSelectProps> = ({ page, pageSize, totalPages, onChangePage, onChangePageSize }) => {
+const PaginationSelcet: React.FC<PaginationSelcetProps> = ({ page, pageSize, totalPages, onChangePage, onChangePageSize }) => {
     let paginationItems = [];
 
     let start = page - 2;
@@ -86,4 +86,4 @@ const PageSelect: React.FC<PageSelectProps> = ({ page, pageSize, totalPages, onC
     );
 }
 
-export default PageSelect;
+export default PaginationSelcet;

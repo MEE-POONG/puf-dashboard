@@ -1,11 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import CheckStatusLoad from "@/components/CheckStatusLoad";
+import CheckStatusLoad from "@/components/StatusLoad/CheckStatusLoad";
 
 interface AddAllianceModalProps {
     show: boolean;
     onClose: () => void;
-    onSubmit: (data: any) => void;  // This may not be needed if API call is handled within the component
 }
 
 interface AllianceData {
@@ -22,7 +21,7 @@ interface AllianceData {
 interface CheckUserAccountResponse {
     isUnique: boolean;
 }
-const ModalAllianceAdd: React.FC<AddAllianceModalProps> = ({ show, onClose, onSubmit }) => {
+const ModalAllianceAdd: React.FC<AddAllianceModalProps> = ({ show, onClose }) => {
     if (!show) return null;
     const [error, setError] = useState<string | null>(null);
     const [status, setStatus] = useState<'loading' | 'error' | 'success' | null>(null);
