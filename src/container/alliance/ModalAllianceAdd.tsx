@@ -1,14 +1,14 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CheckStatusLoad from "@/components/CheckStatusLoad";
 
-interface AddPartnerModalProps {
+interface AddAllianceModalProps {
     show: boolean;
     onClose: () => void;
     onSubmit: (data: any) => void;  // This may not be needed if API call is handled within the component
 }
 
-interface PartnerData {
+interface AllianceData {
     userAccount: string;
     position: string;
     counselor: string;
@@ -22,12 +22,12 @@ interface PartnerData {
 interface CheckUserAccountResponse {
     isUnique: boolean;
 }
-const ModalAllianceAdd: React.FC<AddPartnerModalProps> = ({ show, onClose, onSubmit }) => {
+const ModalAllianceAdd: React.FC<AddAllianceModalProps> = ({ show, onClose, onSubmit }) => {
     if (!show) return null;
     const [error, setError] = useState<string | null>(null);
     const [status, setStatus] = useState<'loading' | 'error' | 'success' | null>(null);
     const [statusMessage, setStatusMessage] = useState<string>('');
-    const [formData, setFormData] = useState<PartnerData>({
+    const [formData, setFormData] = useState<AllianceData>({
         userAccount: '',
         position: '',
         counselor: '',
@@ -38,7 +38,10 @@ const ModalAllianceAdd: React.FC<AddPartnerModalProps> = ({ show, onClose, onSub
         adjustPercentage: false,
         createdBy: 'zxcvbfsadertyui',
     });
+    useEffect(() => {
+        console.log("status : ", status);
 
+    }, [status]);
     const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value, type } = e.target;
         if (type === 'checkbox') {
@@ -105,11 +108,9 @@ const ModalAllianceAdd: React.FC<AddPartnerModalProps> = ({ show, onClose, onSub
         // Submit form
         try {
             const response = await axios.post('/api/alliance', formData);
-            console.log('Success:', response.data);
-            onSubmit(response.data);
-            onClose();
+            console.log(response.data);
             setStatus('success');
-            setStatusMessage('Partner added successfully');
+            setStatusMessage('Alliance added successfully');
         } catch (error) {
             console.error('Error submitting form:', error);
             setError('An error occurred while creating the alliance data');
@@ -126,7 +127,7 @@ const ModalAllianceAdd: React.FC<AddPartnerModalProps> = ({ show, onClose, onSub
     return (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 h-screen">
             <div className="bg-white rounded-lg shadow-lg relative">
-                <CheckStatusLoad status={status} message={statusMessage} onClose={handleCloseStatus} />
+                <CheckStatusLoad status={status} message={statusMessage} onContinue={handleCloseStatus} onClose={onClose} />
                 <div className="card m-5">
                     <h2 className="text-lg font-bold mb-4">เพิ่ม userAccount</h2>
                     <form onSubmit={handleSubmit}>
