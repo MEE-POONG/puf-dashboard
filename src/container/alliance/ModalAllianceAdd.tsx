@@ -124,9 +124,15 @@ const ModalAllianceAdd: React.FC<AddAllianceModalProps> = ({ show, onClose, onSu
         setStatusMessage('');
     };
 
+    const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (e.target === e.currentTarget) {
+            onClose();
+        }
+    };
+
     return (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 h-screen">
-            <div className="bg-white rounded-lg shadow-lg relative">
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 h-screen" onClick={handleOverlayClick}>
+            <div className="bg-white rounded-lg shadow-lg relative" >
                 <CheckStatusLoad status={status} message={statusMessage} onContinue={handleCloseStatus} onClose={onClose} />
                 <div className="card m-5">
                     <h2 className="text-lg font-bold mb-4">เพิ่ม userAccount</h2>
