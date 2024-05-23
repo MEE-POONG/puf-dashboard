@@ -1,8 +1,8 @@
-import DashboardLayout from "@/components/Layout";
-import AddPartnerModal from "@/container/Partner/AddPartnerModal";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import DashboardLayout from "@/components/Layout";
 import { CiEdit, CiTrash } from "react-icons/ci";
+import EditPartnerModal from "@/container/Partner/EditPartnerModal";
 
 interface Partner {
     id: number;
@@ -21,6 +21,7 @@ const Partners: React.FC = () => {
     const [filteredPartners, setFilteredPartners] = useState<Partner[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,8 +46,21 @@ const Partners: React.FC = () => {
         filterData();
     }, [searchQuery, partners]);
 
-    const handleAddPartner = (data: any) => {
-        console.log(data);
+    const handleAddPartner = () => {
+        setSelectedPartner(null);
+        setShowModal(true);
+    };
+
+    const handleEditClick = (partner: Partner) => {
+        setSelectedPartner(partner);
+        setShowModal(true);
+    };
+
+    const handleSubmit = async () => {
+        // Refresh the partner list after adding/editing
+        const response = await axios.get('/api/partner');
+        setPartners(response.data);
+        setFilteredPartners(response.data);
     };
 
     return (
@@ -64,9 +78,8 @@ const Partners: React.FC = () => {
                         />
                     </div>
                     <div className="mt-5 md:mt-0">
-                        <button onClick={() => setShowModal(true)} className="px-3 py-1 bg-teal-500 text-white rounded-full hover:bg-teal-700 text-sm">Add Partner</button>
+                        <button onClick={handleAddPartner} className="px-3 py-1 bg-teal-500 text-white rounded-full hover:bg-teal-700 text-sm">Add Partner</button>
                     </div>
-                    <AddPartnerModal show={showModal} onClose={() => setShowModal(false)} onSubmit={handleAddPartner} />
                 </div>
                 <div className="flex min-h-full items-center justify-center shadow-md rounded-xl overflow-hidden">
                     <div className="overflow-x-auto w-full">
@@ -96,8 +109,8 @@ const Partners: React.FC = () => {
                                         <td className="py-3 px-4">{partner.line}</td>
                                         <td className="py-3 px-4">{partner.allianceId}</td>
                                         <td className="py-3 px-4 flex items-center gap-3">
-                                            <a href="#" className="font-medium text-blue-600 hover:text-blue-800"><CiEdit /></a>
-                                            <a href="#" className="font-medium text-red-600 hover:text-blue-800"><CiTrash /></a>
+                                            <button className="font-medium text-blue-600 hover:text-blue-800" onClick={() => handleEditClick(partner)}><CiEdit /></button>
+                                            <button className="font-medium text-red-600 hover:text-blue-800"><CiTrash /></button>
                                         </td>
                                     </tr>
                                 ))}
@@ -106,6 +119,12 @@ const Partners: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <EditPartnerModal
+                show={showModal}
+                onClose={() => setShowModal(false)}
+                onSubmit={handleSubmit}
+                partner={selectedPartner}
+            />
         </DashboardLayout>
     );
 }

@@ -18,11 +18,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             break;
             case 'POST':
                 try {
-                    const newProduct = await prisma.partnerData.create({
+                    const partners = await prisma.partnerData.create({
                         data: req.body,
                     });
     
-                    res.status(201).json(newProduct);
+                    res.status(201).json(partners);
                 } catch (error) {
                     res.status(500).json({ error: "An error occurred while creating the product" });
                 }
