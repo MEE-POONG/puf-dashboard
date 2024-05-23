@@ -24,8 +24,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 });
                 res.status(201).json(alliance);
             } catch (error) {
-                console.log(error);
-                
                 res.status(500).json({ error: "An error occurred while creating the alliance data" });
             }
             break;

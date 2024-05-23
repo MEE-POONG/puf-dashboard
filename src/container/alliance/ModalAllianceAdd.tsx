@@ -38,10 +38,28 @@ const ModalAllianceAdd: React.FC<AddAllianceModalProps> = ({ show, onClose, onSu
         adjustPercentage: false,
         createdBy: 'zxcvbfsadertyui',
     });
-    useEffect(() => {
-        console.log("status : ", status);
+    const [counselors, setCounselors] = useState<AllianceData[]>([]);
 
-    }, [status]);
+    useEffect(() => {
+        const fetchCounselors = async () => {
+            if (formData.position === 'agent' || formData.position === 'master') {
+                const positionToFetch = formData.position === 'agent' ? 'master' : 'senior';
+                try {
+                    const response = await axios.get<AllianceData[]>(`/api/alliance/selectPosition`, { params: { position: positionToFetch } });
+                    setCounselors(response.data);
+                } catch (error) {
+                    console.error('Error fetching counselors:', error);
+                }
+            } else if (formData.position === 'senior') {
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    counselor: '',
+                }));
+            }
+        };
+        fetchCounselors();
+    }, [formData?.position]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value, type } = e.target;
         if (type === 'checkbox') {
@@ -68,7 +86,6 @@ const ModalAllianceAdd: React.FC<AddAllianceModalProps> = ({ show, onClose, onSu
         setStatus('loading');
         setStatusMessage('Loading กำลังโหลด');
 
-        // Basic validation
         if (!formData.position) {
             setError("กรุณาเลือกตำแหน่ง");
             setStatus('error');
@@ -88,7 +105,6 @@ const ModalAllianceAdd: React.FC<AddAllianceModalProps> = ({ show, onClose, onSu
             return;
         }
 
-        // Check if userAccount is unique
         try {
             const checkResponse = await axios.get<CheckUserAccountResponse>(`/api/alliance/checkUserAccount`, { params: { userAccount: formData.userAccount } });
             if (!checkResponse.data.isUnique) {
@@ -108,11 +124,15 @@ const ModalAllianceAdd: React.FC<AddAllianceModalProps> = ({ show, onClose, onSu
         // Submit form
         try {
             const response = await axios.post('/api/alliance', formData);
-            console.log(response.data);
-            setStatus('success');
-            setStatusMessage('Alliance added successfully');
+            if (response?.status === 201) {
+                setStatus('success');
+                setStatusMessage('Alliance added successfully');
+            } else {
+                setError('An error occurred while creating the alliance data');
+                setStatus('error');
+                setStatusMessage('An error occurred while creating the alliance data');
+            }
         } catch (error) {
-            console.error('Error submitting form:', error);
             setError('An error occurred while creating the alliance data');
             setStatus('error');
             setStatusMessage('An error occurred while creating the alliance data');
@@ -152,8 +172,9 @@ const ModalAllianceAdd: React.FC<AddAllianceModalProps> = ({ show, onClose, onSu
                                 <label htmlFor="counselor" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ยูสต้นสาย</label>
                                 <select id="counselor" name="counselor" className="p-2 w-full border border-gray-300 rounded-md shadow-sm" value={formData.counselor} onChange={handleChange} disabled={formData?.position === "" || formData.position === 'senior'}>
                                     <option value="" disabled>เลือกยูสต้นสาย</option>
-                                    <option value="ufrcb">ufrcb</option>
-                                    <option value="ufrcb1">ufrcb1</option>
+                                    {counselors.map((counselor) => (
+                                        <option key={counselor.userAccount} value={counselor.userAccount}>{counselor.userAccount}</option>
+                                    ))}
                                 </select>
                             </div>
                             <div>
