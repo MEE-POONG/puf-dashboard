@@ -29,53 +29,17 @@ const CheckStatusLoad: React.FC<CheckStatusLoadProps> = ({ status, message, onCo
     return (
         <div className={`absolute z-[999] rounded-lg bg-white w-full h-full p-5 ${!status ? 'hidden' : 'flex'}`}>
             <div className='w-full h-full flex justify-center items-center flex-col'>
-                {/* {status === 'loading' && (
-                    <>
-                        <div className='font-bold text-2xl text-blue-600'>{message}</div>
-                        <FaHurricane className='inline w-72 h-72 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600' />
-                    </>
+                <div className={`${textColor} font-bold text-2xl `}>{message}</div>
+
+                {status === 'loading' && (
+                    <FaHurricane className='inline w-72 h-72 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600' />
                 )}
                 {status === 'error' && (
-                    <>
-                        <div className='font-bold text-2xl text-red-600'>{message}</div>
-                        <FaXmark className='inline w-72 h-72 text-red-600 dark:text-gray-600' />
-                    </>
+                    <FaXmark className='inline w-72 h-72 text-red-600 dark:text-gray-600' />
                 )}
                 {status === 'success' && (
-                    <>
-                        <div className='font-bold text-2xl text-teal-500'>{message}</div>
-                        <FaCheck className='inline w-72 h-72 text-teal-500 dark:text-gray-600' />
-                    </>
-                )} */}
-                <>
-                    <div className={`${textColor} font-bold text-2xl `}>{message}</div>
-
-                    {status === 'loading' && (
-                        <FaHurricane className='inline w-72 h-72 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600' />
-                    )}
-                    {status === 'error' && (
-                        <FaXmark className='inline w-72 h-72 text-red-600 dark:text-gray-600' />
-                    )}
-                    {status === 'success' && (
-                        <FaCheck className={`${textColor} inline w-72 h-72  dark:text-gray-600`} />
-                    )}
-                </>
-                <div className='w-full flex justify-around '>
-                    <button
-                        type="button"
-                        className={`${status === 'error' ? `` : `hidden`} font-bold py-2 px-4 rounded mt-4 text-gray-900 bg-gray-100 hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-gray-100  text-sm text-center inline-flex items-center dark:focus:ring-gray-700`}
-                        onClick={onContinue}
-                    >
-                        กลับไปทำ
-                    </button>
-                    <button
-                        type="button"
-                        className={`${buttonColor} ${status === 'error' || status === 'success' ? `` : `hidden`} font-bold py-2 px-4 rounded mt-4 text-gray-900 bg-gray-500  focus:ring-4 focus:outline-none focus:ring-red-100  text-sm text-center inline-flex items-center `}
-                        onClick={onClose}
-                    >
-                        close
-                    </button>
-                </div>
+                    <FaCheck className={`${textColor} inline w-72 h-72  dark:text-gray-600`} />
+                )}
             </div>
         </div>
     );
