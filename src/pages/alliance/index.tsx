@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FaSearch } from "react-icons/fa";
+import { FaEdit, FaRegTrashAlt, FaSearch } from "react-icons/fa";
 import ModalAllianceAdd from "@/container/alliance/ModalAllianceAdd";
 import DashboardLayout from "@/components/Layout";
-import PageSelect from "@/components/PageSelect";
+import PaginationSelcet from "@/components/PaginationSelcet";
 
-interface Alliance {
-    id: number;
-    firstName: string;
-    lastName: string;
-    bankAccount: string;
-    accountName: string;
-    bank: string;
-    tel: string;
-    line: string;
-    allianceId: string;
+interface AllianceData {
+    userAccount: string;
+    position: string;
+    counselor: string;
+    percent: number;
+    accruedPlus: boolean;
+    getCom: boolean;
+    pay: boolean;
+    adjustPercentage: boolean;
+    createdBy: string;
 }
 interface Params {
     page: number;
     pageSize: number;
     search: string;
+    position: string;
     totalPages: number;
 }
 const AlliancePage: React.FC = () => {
@@ -27,9 +28,10 @@ const AlliancePage: React.FC = () => {
         page: 1,
         pageSize: 10,
         search: "",
+        position: "",
         totalPages: 1,
     });
-    const [filteredAlliances, setFilteredAlliances] = useState<Alliance[]>([]);
+    const [filteredAlliances, setFilteredAlliances] = useState<AllianceData[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [selectedRole, setSelectedRole] = useState('senior'); // Added state for selected role
@@ -102,7 +104,7 @@ const AlliancePage: React.FC = () => {
                 <div className="mt-5 md:mt-0">
                     <button onClick={() => setShowModal(true)} className="px-3 py-1 bg-teal-500 text-white rounded-full hover:bg-teal-700 text-sm">Add UserAgent</button>
                 </div>
-                <ModalAllianceAdd show={showModal} onClose={() => setShowModal(false)}  />
+                <ModalAllianceAdd show={showModal} onClose={() => setShowModal(false)} />
             </div>
             <div className="flex min-h-full items-center justify-center shadow-md rounded-xl overflow-hidden">
                 <div className="overflow-x-auto w-full">
@@ -112,14 +114,15 @@ const AlliancePage: React.FC = () => {
                                 <th className="py-2 px-4 text-left">No.</th>
                                 <th className="py-2 px-4 text-left">User Account</th>
                                 <th className="py-2 px-4 text-left">%</th>
-                                <th className="py-2 px-4 text-left">Accrued Plus</th>
-                                <th className="py-2 px-4 text-left">Com</th>
-                                <th className="py-2 px-4 text-left">Pay</th>
+                                <th className="py-2 px-4 text-left">ยอดค้างบวก</th>
+                                <th className="py-2 px-4 text-left">ค่าคอม</th>
+                                <th className="py-2 px-4 text-left">ปรับเปอร์เซ็น</th>
+                                <th className="py-2 px-4 text-left">จ่าย</th>
                                 <th className="py-2 px-4 text-left">Manager</th>
                             </tr>
                         </thead>
                         <tbody className="text-blue-gray-900">
-                            {/* {AllianceDataList.map((list, index) => (
+                            {filteredAlliances.map((list, index) => (
                                 <tr className="border-b border-blue-gray-200" key={list.userAccount}>
                                     <td className="py-3 px-4">{index + 1}</td>
                                     <td className="py-3 px-4">{list.userAccount}</td>
@@ -127,34 +130,19 @@ const AlliancePage: React.FC = () => {
                                     <td className="py-3 px-4">{list.accruedPlus ? `มี` : `ไม่มี`}</td>
                                     <td className="py-3 px-4">{list.getCom ? `มี` : `ไม่มี`}</td>
                                     <td className="py-3 px-4">{list.pay ? `จ่าย` : `ระงับ`}</td>
+                                    <td className="py-3 px-4">{list.adjustPercentage ? `จ่าย` : `ระงับ`}</td>
                                     <td className="py-3 px-4 flex items-center gap-3">
-                                        <a href="#" className="font-medium text-blue-600 hover:text-blue-800"><CiEdit /></a>
-                                        <a href="#" className="font-medium text-red-600 hover:text-blue-800"><CiTrash /></a>
+                                        <a href="#" className="font-medium text-blue-600 hover:text-blue-800"><FaEdit /></a>
+                                        <a href="#" className="font-medium text-red-600 hover:text-blue-800"><FaRegTrashAlt /></a>
                                     </td>
                                 </tr>
-                            ))} */}
-                            {/* {filteredPartners.map((partner, index) => (
-                                    <tr className="border-b border-blue-gray-200" key={partner.id}>
-                                        <td className="py-3 px-4">{index + 1}</td>
-                                        <td className="py-3 px-4">{partner.firstName} {partner.lastName}</td>
-                                        <td className="py-3 px-4">{partner.bankAccount}</td>
-                                        <td className="py-3 px-4">{partner.bank}</td>
-                                        <td className="py-3 px-4">{partner.accountName}</td>
-                                        <td className="py-3 px-4">{partner.tel}</td>
-                                        <td className="py-3 px-4">{partner.line}</td>
-                                        <td className="py-3 px-4">{partner.allianceId}</td>
-                                        <td className="py-3 px-4 flex items-center gap-3">
-                                            <a href="#" className="font-medium text-blue-600 hover:text-blue-800"><CiEdit /></a>
-                                            <a href="#" className="font-medium text-red-600 hover:text-blue-800"><CiTrash /></a>
-                                        </td>
-                                    </tr>
-                                ))} */}
+                            ))}
                         </tbody>
                     </table>
                 </div>
             </div>
             <div className="card-footer">
-                <PageSelect page={params.page} pageSize={params.pageSize} totalPages={params.totalPages} onChangePage={handleChangePage} onChangePageSize={handleChangePageSize} />
+                <PaginationSelcet page={params.page} pageSize={params.pageSize} totalPages={params.totalPages} onChangePage={handleChangePage} onChangePageSize={handleChangePageSize} />
             </div>
         </DashboardLayout>
     );
