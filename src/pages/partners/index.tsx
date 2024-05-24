@@ -3,7 +3,7 @@ import axios from "axios";
 import DashboardLayout from "@/components/Layout";
 import { CiEdit, CiTrash } from "react-icons/ci";
 import EditPartnerModal from "@/container/Partner/EditPartnerModal";
-import PageSelect from "@/components/PageSelect";
+import PaginationSelcet from "@/components/PaginationSelcet";
 
 interface Partner {
     id: number;
@@ -20,7 +20,7 @@ interface Partner {
 interface Params {
     page: number;
     pageSize: number;
-    search: string;
+    keyword: string;
     totalPages: number;
 }
 
@@ -29,7 +29,7 @@ const Partners: React.FC = () => {
     const [params, setParams] = useState<Params>({
         page: 1,
         pageSize: 10,
-        search: "",
+        keyword: "",
         totalPages: 1,
     });
 
@@ -85,18 +85,11 @@ const Partners: React.FC = () => {
         setFilteredPartners(response.data);
     };
 
-    const handleChangePage = (page: number) => {
-        setParams((prevParams) => ({
-            ...prevParams,
-            page: page,
-        }));
-    };
-
-    const handleChangePageSize = (size: number) => {
-        setParams((prevParams) => ({
-            ...prevParams,
-            page: 1,
-            pageSize: size,
+    const handleChange = (field: keyof Params, value: string | number) => {
+        setParams(prev => ({
+            ...prev,
+            page: field === 'keyword' ? 1 : prev.page,
+            [field]: value
         }));
     };
 
@@ -137,15 +130,15 @@ const Partners: React.FC = () => {
                             <tbody className="text-blue-gray-900">
                                 {filteredPartners.map((partner, index) => (
                                     <tr className="border-b border-blue-gray-200" key={partner.id}>
-                                        <td className="py-3 px-4">{index + 1}</td>
-                                        <td className="py-3 px-4">{partner.firstName} {partner.lastName}</td>
-                                        <td className="py-3 px-4">{partner.bankAccount}</td>
-                                        <td className="py-3 px-4">{partner.bank}</td>
-                                        <td className="py-3 px-4">{partner.accountName}</td>
-                                        <td className="py-3 px-4">{partner.tel}</td>
-                                        <td className="py-3 px-4">{partner.line}</td>
-                                        <td className="py-3 px-4">{partner.allianceId}</td>
-                                        <td className="py-3 px-4 flex items-center gap-3">
+                                        <td className="py-2 px-4">{index + 1}</td>
+                                        <td className="py-2 px-4">{partner.firstName} {partner.lastName}</td>
+                                        <td className="py-2 px-4">{partner.bankAccount}</td>
+                                        <td className="py-2 px-4">{partner.bank}</td>
+                                        <td className="py-2 px-4">{partner.accountName}</td>
+                                        <td className="py-2 px-4">{partner.tel}</td>
+                                        <td className="py-2 px-4">{partner.line}</td>
+                                        <td className="py-2 px-4">{partner.allianceId}</td>
+                                        <td className="py-2 px-4 flex items-center gap-3">
                                             <button className="font-medium text-blue-600 hover:text-blue-800" onClick={() => handleEditClick(partner)}><CiEdit /></button>
                                             <button className="font-medium text-red-600 hover:text-blue-800"><CiTrash /></button>
                                         </td>
@@ -155,8 +148,13 @@ const Partners: React.FC = () => {
                         </table>
                     </div>
                 </div>
-                <PageSelect page={params.page} pageSize={params.pageSize} totalPages={params.totalPages} onChangePage={handleChangePage} onChangePageSize={handleChangePageSize} />
-
+                <PaginationSelcet
+                    page={params.page}
+                    pageSize={params.pageSize}
+                    totalPages={params.totalPages}
+                    onChangePage={(page) => handleChange('page', page)}
+                    onChangePageSize={(size) => handleChange('pageSize', size)}
+                />
             </div>
             <EditPartnerModal
                 show={showModal}
