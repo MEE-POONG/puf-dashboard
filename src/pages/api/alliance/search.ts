@@ -34,10 +34,10 @@ async function handleGET(req: NextApiRequest, res: NextApiResponse) {
     const take = pageSizeNum;
 
     const whereConditions: Prisma.AllianceDataWhereInput[] = [];
+    console.log("search : ", search);
 
     if (search && search.length >= 3) {
       whereConditions.push({ userAccount: { contains: search, mode: 'insensitive' } });
-      whereConditions.push({ counselor: { contains: search, mode: 'insensitive' } });
     }
 
     if (position) {
