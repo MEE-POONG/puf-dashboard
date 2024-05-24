@@ -14,7 +14,6 @@ interface AllianceData {
     getCom: boolean;
     pay: boolean;
     adjustPercentage: boolean;
-    createdBy: string;
 }
 
 interface Params {
@@ -96,29 +95,36 @@ const AlliancePage: React.FC = () => {
                 <table className="min-w-full bg-white">
                     <thead>
                         <tr className="bg-gray-200 text-gray-700">
-                            <th className="py-2 px-4 text-left">No.</th>
+                            <th className="py-2 px-4 text-left w-4">No.</th>
                             <th className="py-2 px-4 text-left">User Account</th>
                             <th className="py-2 px-4 text-left">%</th>
-                            <th className="py-2 px-4 text-left">Accrued Plus</th>
-                            <th className="py-2 px-4 text-left">Commission</th>
-                            <th className="py-2 px-4 text-left">Adjust Percentage</th>
-                            <th className="py-2 px-4 text-left">Pay</th>
-                            <th className="py-2 px-4 text-left">Manager</th>
+                            <th className="py-2 px-4 text-left">สิทธิ</th>
+                            <th className="py-2 px-4 text-center">Manager</th>
                         </tr>
                     </thead>
                     <tbody>
                         {filteredAlliances.map((list, index) => (
                             <tr key={list.userAccount}>
-                                <td>{index + 1}</td>
-                                <td>{list.userAccount}</td>
-                                <td>{list.percent}</td>
-                                <td>{list.accruedPlus ? 'Yes' : 'No'}</td>
-                                <td>{list.getCom ? 'Yes' : 'No'}</td>
-                                <td>{list.adjustPercentage ? 'Yes' : 'No'}</td>
-                                <td>{list.pay ? 'Yes' : 'No'}</td>
-                                <td>
-                                    <a href="#" className="font-medium text-blue-600 hover:text-blue-800"><FaEdit /></a>
-                                    <a href="#" className="font-medium text-red-600 hover:text-blue-800"><FaRegTrashAlt /></a>
+                                <td className="text-right py-2 px-4">{index + 1}</td>
+                                <td className="py-2 px-4">{list.userAccount}</td>
+                                <td className="py-2 px-4">{list.percent}</td>
+                                <td className="py-2 px-4">
+                                    <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 border border-green-400">
+                                        {list.accruedPlus ? 'มี' : 'ไม่มี'}ค้างบวก
+                                    </span>
+                                    <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 border border-green-400">
+                                        {list.getCom ? 'มี' : 'ไม่มี'}ค่าคอม
+                                    </span>
+                                    <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 border border-green-400">
+                                        {list.adjustPercentage ? 'มี' : 'ไม่มี'}ปรับเปอร์เซ็น
+                                    </span>
+                                    <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 border border-green-400">
+                                        {list.pay ? 'มี' : 'ไม่มี'}จ่าย
+                                    </span>
+                                </td>
+                                <td className="py-2 px-4 text-center">
+                                    <button className="text-xl text-blue-600 hover:text-blue-800 p-2"><FaEdit /></button>
+                                    <button className="text-xl text-red-600 hover:text-red-800"><FaRegTrashAlt /></button>
                                 </td>
                             </tr>
                         ))}
