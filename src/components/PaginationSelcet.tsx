@@ -45,7 +45,7 @@ const PaginationSelcet: React.FC<PaginationSelcetProps> = ({ page, pageSize, tot
                     value={pageSize} // Use `value` instead of `defaultValue` for controlled component
                     onChange={e => onChangePageSize(Number(e.target.value))} // Add onChange handler to update page size
                     className="mx-2 items-center justify-center px-3 h-8 text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <option value={1}>10</option>
+                    <option value={10}>10</option>
                     <option value={50}>50</option>
                     <option value={100}>100</option>
                     <option value={500}>500</option>
