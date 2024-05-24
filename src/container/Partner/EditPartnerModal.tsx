@@ -4,7 +4,7 @@ import axios from "axios";
 interface EditPartnerModalProps {
     show: boolean;
     onClose: () => void;
-    onSubmit: () => void; // We use onSubmit to refresh the partner list after the modal closes
+    onSubmit: () => void; // Refresh the partner list after the modal closes
     partner: Partner | null;
 }
 
@@ -21,7 +21,8 @@ interface Partner {
 }
 
 const EditPartnerModal: React.FC<EditPartnerModalProps> = ({ show, onClose, onSubmit, partner }) => {
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<Partner>({
+        id: 0,
         firstName: '',
         lastName: '',
         bankAccount: '',
@@ -37,6 +38,7 @@ const EditPartnerModal: React.FC<EditPartnerModalProps> = ({ show, onClose, onSu
             setFormData(partner);
         } else {
             setFormData({
+                id: 0,
                 firstName: '',
                 lastName: '',
                 bankAccount: '',
@@ -152,8 +154,8 @@ const EditPartnerModal: React.FC<EditPartnerModalProps> = ({ show, onClose, onSu
                             className="mb-2 p-2 border w-full"
                         />
                     </div>
-                    <button type="submit" className="bg-teal-500 text-white px-3 py-1 rounded">Submit</button>
-                    <button type="button" onClick={onClose} className="ml-2 bg-gray-500 text-white px-3 py-1 rounded">Cancel</button>
+                    <button type="submit" className="bg-teal-500 hover:bg-teal-600 text-white px-3 py-1 rounded">Submit</button>
+                    <button type="button" onClick={onClose} className="ml-2 bg-gray-500 hover:bg-gray-700 text-white px-3 py-1 rounded">Cancel</button>
                 </form>
             </div>
         </div>
