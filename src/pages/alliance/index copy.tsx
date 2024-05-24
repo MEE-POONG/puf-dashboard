@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { FaSearch } from "react-icons/fa";
 import ModalAllianceAdd from "@/container/alliance/ModalAllianceAdd";
 import DashboardLayout from "@/components/Layout";
+import axios from "axios";
+import { FaSearch } from "react-icons/fa";
 import PageSelect from "@/components/PageSelect";
 
 interface Alliance {
@@ -29,6 +29,7 @@ const AlliancePage: React.FC = () => {
         search: "",
         totalPages: 1,
     });
+    const [Alliances, setAlliances] = useState<Alliance[]>([]);
     const [filteredAlliances, setFilteredAlliances] = useState<Alliance[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [showModal, setShowModal] = useState(false);
@@ -38,6 +39,7 @@ const AlliancePage: React.FC = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('/api/alliance');
+                setAlliances(response.data);
                 setFilteredAlliances(response.data);
             } catch (error) {
                 console.error('Error fetching alliance data:', error);
@@ -46,6 +48,10 @@ const AlliancePage: React.FC = () => {
         fetchData();
     }, []);
 
+    const handleAddPartner = (data: any) => {
+        setAlliances((prevAlliances) => [data, ...prevAlliances]);
+        setShowModal(false);
+    };
 
     const handleChangePage = (page: number) => {
         setParams((prevParams) => ({
