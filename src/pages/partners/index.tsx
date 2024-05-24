@@ -3,6 +3,7 @@ import axios from "axios";
 import DashboardLayout from "@/components/Layout";
 import { CiEdit, CiTrash } from "react-icons/ci";
 import EditPartnerModal from "@/container/Partner/EditPartnerModal";
+import PageSelect from "@/components/PageSelect";
 
 interface Partner {
     id: number;
@@ -16,21 +17,42 @@ interface Partner {
     allianceId: string;
 }
 
+interface Params {
+    page: number;
+    pageSize: number;
+    search: string;
+    totalPages: number;
+}
+
+
 const Partners: React.FC = () => {
+    const [params, setParams] = useState<Params>({
+        page: 1,
+        pageSize: 10,
+        search: "",
+        totalPages: 1,
+    });
+
     const [partners, setPartners] = useState<Partner[]>([]);
     const [filteredPartners, setFilteredPartners] = useState<Partner[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
 
+
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get('/api/partner');
-            setPartners(response.data);
-            setFilteredPartners(response.data);
+            try {
+                const response = await axios.get('/api/partner');
+                setPartners(response.data);
+                setFilteredPartners(response.data);
+            } catch (error) {
+                console.error('Error fetching alliance data:', error);
+            }
         };
         fetchData();
     }, []);
+
 
     useEffect(() => {
         const filterData = () => {
@@ -61,6 +83,21 @@ const Partners: React.FC = () => {
         const response = await axios.get('/api/partner');
         setPartners(response.data);
         setFilteredPartners(response.data);
+    };
+
+    const handleChangePage = (page: number) => {
+        setParams((prevParams) => ({
+            ...prevParams,
+            page: page,
+        }));
+    };
+
+    const handleChangePageSize = (size: number) => {
+        setParams((prevParams) => ({
+            ...prevParams,
+            page: 1,
+            pageSize: size,
+        }));
     };
 
     return (
@@ -118,6 +155,8 @@ const Partners: React.FC = () => {
                         </table>
                     </div>
                 </div>
+                <PageSelect page={params.page} pageSize={params.pageSize} totalPages={params.totalPages} onChangePage={handleChangePage} onChangePageSize={handleChangePageSize} />
+
             </div>
             <EditPartnerModal
                 show={showModal}
