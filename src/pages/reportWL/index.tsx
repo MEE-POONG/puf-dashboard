@@ -9,11 +9,12 @@ const ReportWL: React.FC = (props) => {
                 <div className="md:flex items-center justify-between my-3">
                     <h2 className="text-lg font-bold py-3">ออกรายงาน/Report</h2>
                 </div>
+
+                <button className="my-3 p-2 bg-yellow-400 rounded shadow-md">รายงานทั้งหมด</button>
                 <div className="flex min-h-full items-center justify-center shadow-md rounded-xl overflow-hidden">
                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead>
                             <tr className="bg-gray-200 text-gray-700">
-                                <th className="py-2 px-4 text-left">No.</th>
                                 <th className="py-2 px-4 text-left">หัวข้อรายงาน</th>
                                 <th className="py-2 px-4 text-left">Action</th>
                             </tr>
@@ -23,11 +24,12 @@ const ReportWL: React.FC = (props) => {
                                 <td className="py-3 px-4 flex items-center justify-left">
                                     <input type="checkbox" name="" id=""
                                         className="w-24 h-2/4" />
-                                        Agent
+                                    Agent
                                 </td>
-                                <td className="py-3 px-4"></td>
-                                <td className="py-3 px-4 flex items-center gap-3">
-                                    <button className="font-medium text-blue-600 hover:text-blue-800" > <BiSolidReport /> </button>
+                                <td className="py-3 px-4">
+                                    <button className="font-medium text-blue-600 hover:text-blue-800 flex items-center" >
+                                        <BiSolidReport />ออกรายงาน
+                                    </button>
                                 </td>
                             </tr>
 
