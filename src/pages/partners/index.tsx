@@ -4,6 +4,7 @@ import DashboardLayout from "@/components/Layout";
 import { CiEdit, CiTrash } from "react-icons/ci";
 import EditPartnerModal from "@/container/Partner/EditPartnerModal";
 import PaginationSelcet from "@/components/PaginationSelcet";
+import ConfirmDeleteModal from "@/container/alliance/ConfirmDeleteModal";
 import Tooltip from "@/components/Tooltip";
 
 interface Partner {
@@ -25,8 +26,7 @@ interface Params {
     totalPages: number;
 }
 
-
-const Partners: React.FC = (props) => {
+const Partners: React.FC = () => {
     const [params, setParams] = useState<Params>({
         page: 1,
         pageSize: 10,
@@ -38,22 +38,23 @@ const Partners: React.FC = (props) => {
     const [filteredPartners, setFilteredPartners] = useState<Partner[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
+    const [partnerToDelete, setPartnerToDelete] = useState<Partner | null>(null);
 
+    const fetchPartners = async () => {
+        try {
+            const response = await axios.get('/api/partner', { params });
+            setPartners(response.data);
+            setFilteredPartners(response.data);
+        } catch (error) {
+            console.error('Error fetching partner data:', error);
+        }
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('/api/partner');
-                setPartners(response.data);
-                setFilteredPartners(response.data);
-            } catch (error) {
-                console.error('Error fetching alliance data:', error);
-            }
-        };
-        fetchData();
-    }, []);
-
+        fetchPartners();
+    }, [params]);
 
     useEffect(() => {
         const filterData = () => {
@@ -79,11 +80,26 @@ const Partners: React.FC = (props) => {
         setShowModal(true);
     };
 
+    const handleDeleteClick = (partner: Partner) => {
+        setPartnerToDelete(partner);
+        setShowDeleteModal(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (partnerToDelete) {
+            try {
+                await axios.delete(`/api/partner/${partnerToDelete.id}`);
+                fetchPartners();
+                setShowDeleteModal(false);
+                setPartnerToDelete(null);
+            } catch (error) {
+                console.error('Error deleting partner:', error);
+            }
+        }
+    };
+
     const handleSubmit = async () => {
-        // Refresh the partner list after adding/editing
-        const response = await axios.get('/api/partner');
-        setPartners(response.data);
-        setFilteredPartners(response.data);
+        await fetchPartners();
     };
 
     const handleChange = (field: keyof Params, value: string | number) => {
@@ -99,7 +115,6 @@ const Partners: React.FC = (props) => {
             <div className="m-5">
                 <div className="md:flex items-center justify-between my-3">
                     <h2 className="text-lg font-bold py-3">รายชื่อตัวแทน</h2>
-
                     <div>
                         ค้นหา:<input
                             type="search"
@@ -146,7 +161,9 @@ const Partners: React.FC = (props) => {
                                                 </button>
                                             </Tooltip>
                                             <Tooltip tooltipContent="ลบ">
-                                                <button className="font-medium text-red-600 hover:text-blue-800"><CiTrash /></button>
+                                                <button className="font-medium text-red-600 hover:text-blue-800" onClick={() => handleDeleteClick(partner)}>
+                                                    <CiTrash />
+                                                </button>
                                             </Tooltip>
                                         </td>
                                     </tr>
@@ -168,6 +185,12 @@ const Partners: React.FC = (props) => {
                 onClose={() => setShowModal(false)}
                 onSubmit={handleSubmit}
                 partner={selectedPartner}
+            />
+            <ConfirmDeleteModal
+                show={showDeleteModal}
+                onClose={() => setShowDeleteModal(false)}
+                onConfirm={handleConfirmDelete}
+            // partnerName={partnerToDelete ? `${partnerToDelete.firstName} ${partnerToDelete.lastName}` : ''}
             />
         </DashboardLayout>
     );
