@@ -4,6 +4,7 @@ import DashboardLayout from "@/components/Layout";
 import { CiEdit, CiTrash } from "react-icons/ci";
 import EditPartnerModal from "@/container/Partner/EditPartnerModal";
 import PaginationSelcet from "@/components/PaginationSelcet";
+import Tooltip from "@/components/Tooltip";
 
 interface Partner {
     id: number;
@@ -25,7 +26,7 @@ interface Params {
 }
 
 
-const Partners: React.FC = () => {
+const Partners: React.FC = (props) => {
     const [params, setParams] = useState<Params>({
         page: 1,
         pageSize: 10,
@@ -139,8 +140,14 @@ const Partners: React.FC = () => {
                                         <td className="py-2 px-4">{partner.line}</td>
                                         <td className="py-2 px-4">{partner.allianceId}</td>
                                         <td className="py-2 px-4 flex items-center gap-3">
-                                            <button className="font-medium text-blue-600 hover:text-blue-800" onClick={() => handleEditClick(partner)}><CiEdit /></button>
-                                            <button className="font-medium text-red-600 hover:text-blue-800"><CiTrash /></button>
+                                            <Tooltip tooltipContent="แก้ไข">
+                                                <button className="font-medium text-blue-600 hover:text-blue-800" onClick={() => handleEditClick(partner)}>
+                                                    <CiEdit />
+                                                </button>
+                                            </Tooltip>
+                                            <Tooltip tooltipContent="ลบ">
+                                                <button className="font-medium text-red-600 hover:text-blue-800"><CiTrash /></button>
+                                            </Tooltip>
                                         </td>
                                     </tr>
                                 ))}

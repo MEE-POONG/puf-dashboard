@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FaEdit, FaRegTrashAlt, FaSearch, FaUserTag } from "react-icons/fa";
+import { FaEdit, FaRegTrashAlt, FaSearch } from "react-icons/fa";
 import ModalAllianceAdd from "@/container/alliance/ModalAllianceAdd";
 import DashboardLayout from "@/components/Layout";
 import PaginationSelcet from "@/components/PaginationSelcet";
-import Tooltip from "@/components/Tooltip";
 
 interface AllianceData {
     userAccount: string;
@@ -41,8 +40,6 @@ const AlliancePage: React.FC = () => {
             const queryParameters = `search=${params.keyword}&position=${params.position}&page=${params.page}&pageSize=${params.pageSize}`;
             try {
                 const response = await axios.get(`/api/alliance/search?${queryParameters}`);
-                console.log(response);
-
                 setFilteredAlliances(response.data.data);
                 setParams(prev => ({ ...prev, totalPages: response.data.pagination.totalPages }));
             } catch (error) {
@@ -94,32 +91,23 @@ const AlliancePage: React.FC = () => {
                 <button onClick={() => setShowModal(true)} className="px-3 py-1 bg-teal-500 text-white rounded-full hover:bg-teal-700 text-sm">Add UserAgent</button>
                 <ModalAllianceAdd show={showModal} onClose={() => setShowModal(false)} />
             </div>
-            <div className="flex min-h-full items-center justify-center shadow-md rounded-xl ">
+            <div className="flex min-h-full items-center justify-center shadow-md rounded-xl overflow-hidden">
                 <table className="min-w-full bg-white">
                     <thead>
                         <tr className="bg-gray-200 text-gray-700">
-                            <th className="py-2 px-4 text-left w-12">No.</th>
+                            <th className="py-2 px-4 text-left w-4">No.</th>
                             <th className="py-2 px-4 text-left">User Account</th>
                             <th className="py-2 px-4 text-left">%</th>
-                            <th className="py-2 px-4 text-left">ต้นสาย</th>
                             <th className="py-2 px-4 text-left">สิทธิ</th>
-                            <th className="py-2 px-4 text-left">พาร์ทเนอร์</th>
-                            <th className="py-2 px-4 text-left">Manager</th>
+                            <th className="py-2 px-4 text-center">Manager</th>
                         </tr>
                     </thead>
                     <tbody>
                         {filteredAlliances.map((list, index) => (
-                            <tr key={list.userAccount} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <tr key={list.userAccount}>
                                 <td className="text-right py-2 px-4">{index + 1}</td>
-                                <td className="py-2 px-4">
-                                    {list.userAccount}
-                                </td>
-                                <td className="py-2 px-4">
-                                    {list.percent}
-                                </td>
-                                <td className="py-2 px-4">
-                                    {list.counselor}
-                                </td>
+                                <td className="py-2 px-4">{list.userAccount}</td>
+                                <td className="py-2 px-4">{list.percent}</td>
                                 <td className="py-2 px-4">
                                     <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 border border-green-400">
                                         {list.accruedPlus ? 'มี' : 'ไม่มี'}ค้างบวก
@@ -134,20 +122,7 @@ const AlliancePage: React.FC = () => {
                                         {list.pay ? 'มี' : 'ไม่มี'}จ่าย
                                     </span>
                                 </td>
-                                <td className="py-2 px-4 ">
-                                    <Tooltip tooltipContent={`เพิ่มเจ้าของยูส ${list.userAccount}`}>
-                                        <button className="text-xl text-green-600 hover:text-green-800 p-2 focus:outline-none">
-                                            <FaUserTag />
-                                        </button>
-                                    </Tooltip>
-                                    {/* <Tooltip tooltipContent={`เพิ่มเจ้าของยูส ${list.userAccount}`} border="border-red-500" background="bg-blue-500" color="text-yellow-300">
-                                        <button className="text-xl text-green-600 hover:text-green-800 p-2 focus:outline-none">
-                                            <FaUserTag />
-                                        </button>
-                                    </Tooltip> */}
-                                </td>
-
-                                <td className="py-2 px-4 ">
+                                <td className="py-2 px-4 text-center">
                                     <button className="text-xl text-blue-600 hover:text-blue-800 p-2"><FaEdit /></button>
                                     <button className="text-xl text-red-600 hover:text-red-800"><FaRegTrashAlt /></button>
                                 </td>
