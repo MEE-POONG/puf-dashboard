@@ -15,7 +15,7 @@ const ReportWL: React.FC = (props) => {
                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead>
                             <tr className="bg-gray-200 text-gray-700">
-                                <th className="py-2 px-4 text-left">หัวข้อรายงาน</th>
+                                <th className="py-2 px-4 text-left">เลือกหัวข้อรายงาน</th>
                                 <th className="py-2 px-4 text-left">Action</th>
                             </tr>
                         </thead>
