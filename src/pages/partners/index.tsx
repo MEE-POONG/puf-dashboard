@@ -184,7 +184,7 @@ const Partners: React.FC = () => {
                 show={showModal}
                 onClose={() => setShowModal(false)}
                 onSubmit={handleSubmit}
-                partner={selectedPartner}
+                // partner={selectedPartner}
             />
             <ConfirmDeleteModal
                 show={showDeleteModal}
