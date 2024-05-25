@@ -21,7 +21,7 @@ const ReportWL: React.FC = (props) => {
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200 ">
                             <tr className="border-b border-blue-gray-200" >
-                                <td className="py-3 px-4 flex items-center justify-left">
+                                <td className="py-3 flex items-center justify-left">
                                     <input type="checkbox" name="" id=""
                                         className="w-24 h-2/4" />
                                     Agent
