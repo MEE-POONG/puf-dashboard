@@ -32,6 +32,30 @@ const ReportWL: React.FC = (props) => {
                                     </button>
                                 </td>
                             </tr>
+                            <tr className="border-b border-blue-gray-200" >
+                                <td className="py-3 flex items-center justify-left">
+                                    <input type="checkbox" name="" id=""
+                                        className="w-24 h-2/4" />
+                                    Master
+                                </td>
+                                <td className="py-3 px-4">
+                                    <button className="font-medium text-blue-600 hover:text-blue-800 flex items-center" >
+                                        <BiSolidReport />ออกรายงาน
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr className="border-b border-blue-gray-200" >
+                                <td className="py-3 flex items-center justify-left">
+                                    <input type="checkbox" name="" id=""
+                                        className="w-24 h-2/4" />
+                                    Senior
+                                </td>
+                                <td className="py-3 px-4">
+                                    <button className="font-medium text-blue-600 hover:text-blue-800 flex items-center" >
+                                        <BiSolidReport />ออกรายงาน
+                                    </button>
+                                </td>
+                            </tr>
 
                         </tbody>
                     </table>

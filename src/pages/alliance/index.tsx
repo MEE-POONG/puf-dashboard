@@ -103,7 +103,7 @@ const AlliancePage: React.FC = () => {
                             <th className="py-2 px-4 text-left">%</th>
                             <th className="py-2 px-4 text-left">ต้นสาย</th>
                             <th className="py-2 px-4 text-left">สิทธิ</th>
-                            <th className="py-2 px-4 text-left">พาร์เนอร์</th>
+                            <th className="py-2 px-4 text-left">พาร์ทเนอร์</th>
                             <th className="py-2 px-4 text-left">Manager</th>
                         </tr>
                     </thead>
