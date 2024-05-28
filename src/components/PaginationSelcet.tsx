@@ -1,12 +1,14 @@
 import React from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+
 interface PaginationSelcetProps {
     page: number;
     pageSize: number;
     totalPages: number;
-    onChangePage: (size: number) => void;
+    onChangePage: (page: number) => void;
     onChangePageSize: (size: number) => void;
 }
+
 const PaginationSelcet: React.FC<PaginationSelcetProps> = ({ page, pageSize, totalPages, onChangePage, onChangePageSize }) => {
     let paginationItems = [];
 
@@ -35,15 +37,19 @@ const PaginationSelcet: React.FC<PaginationSelcetProps> = ({ page, pageSize, tot
             );
         }
     }
+
     return (
         <nav className="flex items-center flex-column flex-wrap md:flex-row justify-between py-4" aria-label="Table navigation">
             <span className="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
                 Showing
-                <span className="font-semibold text-gray-900 dark:text-white mx-2">1 - 10</span>
+                <span className="font-semibold text-gray-900 dark:text-white mx-2">1 - {pageSize}</span>
                 of
                 <select
-                    value={pageSize} // Use `value` instead of `defaultValue` for controlled component
-                    onChange={e => onChangePageSize(Number(e.target.value))} // Add onChange handler to update page size
+                    value={pageSize}
+                    onChange={e => {
+                        onChangePageSize(Number(e.target.value));
+                        onChangePage(1); // Reset page to 1
+                    }}
                     className="mx-2 items-center justify-center px-3 h-8 text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                     <option value={10}>10</option>
                     <option value={50}>50</option>
@@ -54,13 +60,13 @@ const PaginationSelcet: React.FC<PaginationSelcetProps> = ({ page, pageSize, tot
             </span>
             <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
                 <li>
-                    <a href="#" className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    <a href="#" onClick={() => page > 1 && onChangePage(page - 1)} className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                         <FaArrowLeft />
                     </a>
                 </li>
                 {paginationItems}
                 <li>
-                    <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    <a href="#" onClick={() => page < totalPages && onChangePage(page + 1)} className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                         <FaArrowRight />
                     </a>
                 </li>
