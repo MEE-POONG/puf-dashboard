@@ -4,6 +4,9 @@ import { FaEdit, FaRegTrashAlt, FaSearch } from "react-icons/fa";
 import ModalAllianceAdd from "@/container/alliance/ModalAllianceAdd";
 import DashboardLayout from "@/components/Layout";
 import PaginationSelcet from "@/components/PaginationSelcet";
+import Tooltip from "@/components/Tooltip";
+import TestModal from "@/components/modal";
+import ModalAllianceEdit from "@/container/alliance/ModalAllianceEdit";
 
 interface AllianceData {
     userAccount: string;
@@ -33,7 +36,6 @@ const AlliancePage: React.FC = () => {
         totalPages: 1,
     });
     const [filteredAlliances, setFilteredAlliances] = useState<AllianceData[]>([]);
-    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -60,6 +62,7 @@ const AlliancePage: React.FC = () => {
 
     return (
         <DashboardLayout>
+            <TestModal />
             <div className="md:flex items-center justify-between my-3">
                 <h2 className="text-lg font-bold py-3">พันธมิตร</h2>
                 <div className="p-4 text-gray-600 outline-none focus:outline-none ">
@@ -88,8 +91,7 @@ const AlliancePage: React.FC = () => {
                         </button>
                     </div>
                 </div>
-                <button onClick={() => setShowModal(true)} className="px-3 py-1 bg-teal-500 text-white rounded-full hover:bg-teal-700 text-sm">Add UserAgent</button>
-                <ModalAllianceAdd show={showModal} onClose={() => setShowModal(false)} />
+                <ModalAllianceAdd />
             </div>
             <div className="flex min-h-full items-center justify-center shadow-md rounded-xl overflow-hidden">
                 <table className="min-w-full bg-white">
@@ -122,9 +124,14 @@ const AlliancePage: React.FC = () => {
                                         {list.pay ? 'มี' : 'ไม่มี'}จ่าย
                                     </span>
                                 </td>
-                                <td className="py-2 px-4 text-center">
-                                    <button className="text-xl text-blue-600 hover:text-blue-800 p-2"><FaEdit /></button>
-                                    <button className="text-xl text-red-600 hover:text-red-800"><FaRegTrashAlt /></button>
+                                <td className="py-2 px-4 flex items-center">
+                                   <ModalAllianceEdit />
+                                    <Tooltip tooltipContent="แก้ไข">
+                                        <button className="text-xl text-blue-600 hover:text-blue-800 p-2"><FaEdit /></button>
+                                    </Tooltip>
+                                    <Tooltip tooltipContent="ลบ">
+                                        <button className="text-xl text-red-600 hover:text-red-800 p-2"><FaRegTrashAlt /></button>
+                                    </Tooltip>
                                 </td>
                             </tr>
                         ))}

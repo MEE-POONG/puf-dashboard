@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CheckStatusLoad from "@/components/StatusLoad/CheckStatusLoad";
+import Tooltip from "@/components/Tooltip";
 
 interface AllianceData {
     userAccount: string;
@@ -148,14 +149,17 @@ const ModalAllianceAdd: React.FC = () => {
 
     return (
         <>
-            <button onClick={() => setShowModal(true)} className="px-3 py-1 bg-teal-500 text-white rounded-full hover:bg-teal-700 text-sm">Add UserAgent</button>
-            {showModal && (
+            <Tooltip tooltipContent="คำสั่งบอท">
+                <button onClick={() => setShowModal(true)} className="text-xl text-blue-600 hover:text-blue-800 p-2" >
+                    แก้
+                </button>
+            </Tooltip>            {showModal && (
                 <div className="fixed inset-0 z-50 flex justify-center items-center w-full h-full bg-gray-600 bg-opacity-50"
                     onClick={handleOverlayClick}>
                     <div className="bg-white rounded-lg shadow-lg relative p-6 m-4 max-w-lg w-full" onClick={(e) => e.stopPropagation()}>
                         <CheckStatusLoad status={status} message={statusMessage} onContinue={handleCloseStatus} onClose={() => setShowModal(false)} />
                         <div className="card m-5">
-                            <h2 className="text-lg font-bold mb-4">เพิ่ม userAccount</h2>
+                            <h2 className="text-lg font-bold mb-4">แก้ไข userAccount</h2>
                             <form onSubmit={handleSubmit}>
                                 {error && <p className="text-red-500">{error}</p>}
                                 <div className="grid gap-6 mb-6 md:grid-cols-2">
